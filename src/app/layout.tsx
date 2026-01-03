@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Knotic",
@@ -22,7 +23,9 @@ export default function RootLayout({
         <header>
           <Navbar />
         </header>
-        <main>{children}</main>
+        <main>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </main>
         <footer>
           <p>Copyright 2026 Knotic</p>
         </footer>
