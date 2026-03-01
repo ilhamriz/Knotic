@@ -13,11 +13,16 @@ const ArticlePage = async ({ params }: Props) => {
     notFound();
   }
   return (
-    <div className="flex flex-col">
-      <div className="">{article?.title}</div>
-      <div className="">{article?.excerpt}</div>
-      <div className="">{article?.content}</div>
-    </div>
+    <article className="max-w-3xl mx-auto py-12 space-y-6">
+      <header>
+        <h1 className="text-3xl font-bold">{article.title}</h1>
+        <p className="text-gray-500">{article.excerpt}</p>
+      </header>
+
+      <section className="prose">
+        <p>{article.content}</p>
+      </section>
+    </article>
   );
 };
 
