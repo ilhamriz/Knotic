@@ -1,60 +1,123 @@
 export type Article = {
+  id: string;
   title: string;
   slug: string;
   excerpt: string;
   content: string;
   publishedAt: string;
+  author: string;
+  tags: string[];
+  readingTime: string;
 };
 
 export const articles: Article[] = [
   {
+    id: "1",
     title: "Introducing Knotic",
     slug: "introducing-knotic",
     excerpt:
-      "Knotic is a knowledge and writing platform designed to help you think, write, and organize ideas more clearly.",
+      "Knotic is a modern knowledge platform built to help you organize ideas, publish content, and think more clearly.",
     content: `
-Knotic is built for people who love writing, learning, and organizing knowledge.
+Knotic was created with a simple goal: make knowledge easier to structure and share.
 
-Unlike traditional note-taking tools, Knotic focuses on clarity, structure, and discoverability. 
-You can write publicly or privately, organize your thoughts, and let AI help you summarize and refine your ideas.
+In a world filled with scattered notes and endless information, clarity becomes rare. Knotic focuses on helping users build structured thinking habits.
 
-This project is also a learning journey — built step by step with modern web technologies and best practices in mind.
+You can create articles, organize ideas with tags, and even enhance content with AI assistance.
+
+This is not just a blogging platform — it's a thinking environment.
     `,
     publishedAt: "2026-01-01",
+    author: "Ilham Rizky",
+    tags: ["product", "announcement", "knowledge"],
+    readingTime: "4 min read",
   },
   {
-    title: "Why Knowledge Needs Structure",
-    slug: "why-knowledge-needs-structure",
+    id: "2",
+    title: "Why Structured Thinking Matters",
+    slug: "why-structured-thinking-matters",
     excerpt:
-      "Collecting information is easy. Structuring knowledge so it remains useful over time is the real challenge.",
+      "Information is everywhere. Structure is what turns it into long-term understanding.",
     content: `
-We live in an age of endless information.
+We consume information every day — articles, videos, tutorials, threads.
 
-Articles, videos, tweets, and notes are everywhere. But without structure, knowledge becomes noise.
-That’s why tools like Knotic emphasize organization, tagging, and context.
+But without structure, information fades quickly.
 
-Structured knowledge helps you:
-- Recall information faster
-- Connect ideas more easily
-- Build long-term understanding
+Structured thinking helps you:
+- Retain knowledge longer
+- Connect ideas across domains
+- Make better decisions
 
-Good tools don’t just store information — they help you think.
+Knotic encourages structured writing to transform passive consumption into active understanding.
     `,
     publishedAt: "2026-01-03",
+    author: "Ilham Rizky",
+    tags: ["thinking", "productivity", "learning"],
+    readingTime: "5 min read",
   },
   {
-    title: "From Notes to Insight",
-    slug: "from-notes-to-insight",
+    id: "3",
+    title: "From Notes to Insights",
+    slug: "from-notes-to-insights",
     excerpt:
-      "Taking notes is only the first step. Turning those notes into insight requires reflection and iteration.",
+      "Writing notes is easy. Transforming them into insights requires iteration and reflection.",
     content: `
-Most people stop at note-taking.
+Most people collect notes but never revisit them.
 
-Insight comes from revisiting, refining, and connecting ideas over time.
-Knotic encourages this by making content easy to edit, revisit, and enhance — including with AI assistance.
+Insights are born from:
+- Reviewing ideas
+- Refining explanations
+- Connecting related thoughts
 
-Your notes shouldn’t be static. They should evolve as your understanding grows.
+Knotic makes it easy to revisit and evolve your content. With version-friendly structure and AI support, your notes grow with you.
     `,
     publishedAt: "2026-01-05",
+    author: "Ilham Rizky",
+    tags: ["writing", "insight", "growth"],
+    readingTime: "6 min read",
+  },
+  {
+    id: "4",
+    title: "Designing a Modern Content Platform",
+    slug: "designing-modern-content-platform",
+    excerpt:
+      "Building a content system today means balancing SEO, performance, accessibility, and user experience.",
+    content: `
+Modern content platforms must do more than just display text.
+
+They must:
+- Load fast
+- Rank well on search engines
+- Be accessible to all users
+- Provide smooth editing experiences
+
+Knotic is built with these principles in mind — combining modern frontend architecture with user-centered design.
+    `,
+    publishedAt: "2026-01-07",
+    author: "Ilham Rizky",
+    tags: ["architecture", "frontend", "design"],
+    readingTime: "7 min read",
+  },
+  {
+    id: "5",
+    title: "The Role of AI in Writing",
+    slug: "role-of-ai-in-writing",
+    excerpt:
+      "AI should assist thinking, not replace it. The future of writing is collaborative intelligence.",
+    content: `
+AI is transforming how we write and organize knowledge.
+
+But AI is most powerful when it:
+- Suggests improvements
+- Summarizes long content
+- Helps with clarity
+
+Knotic integrates AI carefully — as a thinking assistant, not a thinking replacement.
+
+The goal is to enhance human creativity, not automate it entirely.
+    `,
+    publishedAt: "2026-01-10",
+    author: "Ilham Rizky",
+    tags: ["ai", "writing", "future"],
+    readingTime: "5 min read",
   },
 ];
