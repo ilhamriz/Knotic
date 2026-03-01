@@ -9,7 +9,7 @@ const ArticlePage = async ({ params }: Props) => {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
 
-  if (!article?.title) {
+  if (!article) {
     notFound();
   }
   return (
@@ -38,6 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // fetch data
   const article = getArticleBySlug(slug);
+
+  if (!article) {
+    return {
+      title: "Article Not Found | Knotic",
+      description: "Article not found",
+    };
+  }
 
   return {
     title: article?.title,
