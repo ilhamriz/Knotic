@@ -1,123 +1,126 @@
-export type Article = {
-  id: string;
+import fs from "node:fs";
+import path from "node:path";
+
+import matter from "gray-matter";
+import { remark } from "remark";
+import html from "remark-html";
+
+export type ArticleFrontmatter = {
   title: string;
-  slug: string;
+  publishedAt: string; // ISO date string
   excerpt: string;
-  content: string;
-  publishedAt: string;
+  coverImage: string;
   author: string;
   tags: string[];
+};
+
+export type ArticlePreview = ArticleFrontmatter & {
+  slug: string;
   readingTime: string;
 };
 
-export const articles: Article[] = [
-  {
-    id: "1",
-    title: "Introducing Knotic",
-    slug: "introducing-knotic",
-    excerpt:
-      "Knotic is a modern knowledge platform built to help you organize ideas, publish content, and think more clearly.",
-    content: `
-Knotic was created with a simple goal: make knowledge easier to structure and share.
+export type Article = ArticleFrontmatter & {
+  slug: string;
+  content: string; // raw markdown
+  contentHtml: string;
+  readingTime: string;
+};
 
-In a world filled with scattered notes and endless information, clarity becomes rare. Knotic focuses on helping users build structured thinking habits.
+const ARTICLES_DIR = path.join(process.cwd(), "src", "content", "articles");
 
-You can create articles, organize ideas with tags, and even enhance content with AI assistance.
+function slugFromFilename(filename: string) {
+  return filename.replace(/\.md$/, "");
+}
 
-This is not just a blogging platform — it's a thinking environment.
-    `,
-    publishedAt: "2026-01-01",
-    author: "Ilham Rizky",
-    tags: ["product", "announcement", "knowledge"],
-    readingTime: "4 min read",
-  },
-  {
-    id: "2",
-    title: "Why Structured Thinking Matters",
-    slug: "why-structured-thinking-matters",
-    excerpt:
-      "Information is everywhere. Structure is what turns it into long-term understanding.",
-    content: `
-We consume information every day — articles, videos, tutorials, threads.
+function getArticleFilePath(slug: string) {
+  return path.join(ARTICLES_DIR, `${slug}.md`);
+}
 
-But without structure, information fades quickly.
+function calculateReadingTimeFromText(text: string) {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const wordsPerMinute = 200;
+  const minutes = Math.max(1, Math.ceil(words / wordsPerMinute));
+  return `${minutes} min read`;
+}
 
-Structured thinking helps you:
-- Retain knowledge longer
-- Connect ideas across domains
-- Make better decisions
+function assertFrontmatter(
+  data: Record<string, unknown>,
+  slug: string,
+): ArticleFrontmatter {
+  const title = data.title;
+  const publishedAt = data.publishedAt;
+  const excerpt = data.excerpt;
+  const coverImage = data.coverImage;
+  const author = data.author;
+  const tags = data.tags;
 
-Knotic encourages structured writing to transform passive consumption into active understanding.
-    `,
-    publishedAt: "2026-01-03",
-    author: "Ilham Rizky",
-    tags: ["thinking", "productivity", "learning"],
-    readingTime: "5 min read",
-  },
-  {
-    id: "3",
-    title: "From Notes to Insights",
-    slug: "from-notes-to-insights",
-    excerpt:
-      "Writing notes is easy. Transforming them into insights requires iteration and reflection.",
-    content: `
-Most people collect notes but never revisit them.
+  if (
+    typeof title !== "string" ||
+    typeof publishedAt !== "string" ||
+    typeof excerpt !== "string" ||
+    typeof coverImage !== "string" ||
+    typeof author !== "string" ||
+    !Array.isArray(tags) ||
+    !tags.every((t) => typeof t === "string")
+  ) {
+    throw new Error(`Invalid frontmatter for article "${slug}"`);
+  }
 
-Insights are born from:
-- Reviewing ideas
-- Refining explanations
-- Connecting related thoughts
+  return {
+    title,
+    publishedAt,
+    excerpt,
+    coverImage,
+    author,
+    tags,
+  };
+}
 
-Knotic makes it easy to revisit and evolve your content. With version-friendly structure and AI support, your notes grow with you.
-    `,
-    publishedAt: "2026-01-05",
-    author: "Ilham Rizky",
-    tags: ["writing", "insight", "growth"],
-    readingTime: "6 min read",
-  },
-  {
-    id: "4",
-    title: "Designing a Modern Content Platform",
-    slug: "designing-modern-content-platform",
-    excerpt:
-      "Building a content system today means balancing SEO, performance, accessibility, and user experience.",
-    content: `
-Modern content platforms must do more than just display text.
+export function getAllArticles(): ArticlePreview[] {
+  if (!fs.existsSync(ARTICLES_DIR)) return [];
 
-They must:
-- Load fast
-- Rank well on search engines
-- Be accessible to all users
-- Provide smooth editing experiences
+  const filenames = fs
+    .readdirSync(ARTICLES_DIR)
+    .filter((name) => name.endsWith(".md"));
 
-Knotic is built with these principles in mind — combining modern frontend architecture with user-centered design.
-    `,
-    publishedAt: "2026-01-07",
-    author: "Ilham Rizky",
-    tags: ["architecture", "frontend", "design"],
-    readingTime: "7 min read",
-  },
-  {
-    id: "5",
-    title: "The Role of AI in Writing",
-    slug: "role-of-ai-in-writing",
-    excerpt:
-      "AI should assist thinking, not replace it. The future of writing is collaborative intelligence.",
-    content: `
-AI is transforming how we write and organize knowledge.
+  const previews = filenames.map((filename) => {
+    const slug = slugFromFilename(filename);
+    const fileContents = fs.readFileSync(getArticleFilePath(slug), "utf8");
+    const { data, content } = matter(fileContents);
+    const frontmatter = assertFrontmatter(
+      data as Record<string, unknown>,
+      slug,
+    );
 
-But AI is most powerful when it:
-- Suggests improvements
-- Summarizes long content
-- Helps with clarity
+    return {
+      slug,
+      ...frontmatter,
+      readingTime: calculateReadingTimeFromText(content),
+    };
+  });
 
-Knotic integrates AI carefully — as a thinking assistant, not a thinking replacement.
+  return previews.sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+  );
+}
 
-The goal is to enhance human creativity, not automate it entirely.
-    `,
-    publishedAt: "2026-01-10",
-    author: "Ilham Rizky",
-    tags: ["ai", "writing", "future"],
-    readingTime: "5 min read",
-  },
-];
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  const filePath = getArticleFilePath(slug);
+  if (!fs.existsSync(filePath)) return null;
+
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(fileContents);
+  const frontmatter = assertFrontmatter(data as Record<string, unknown>, slug);
+
+  const processed = await remark().use(html).process(content);
+  const contentHtml = processed.toString();
+
+  return {
+    slug,
+    ...frontmatter,
+    content,
+    contentHtml,
+    readingTime: calculateReadingTimeFromText(content),
+  };
+}

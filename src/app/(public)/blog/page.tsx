@@ -1,33 +1,49 @@
-import { articles } from "@/lib/articles";
-import { Metadata } from "next";
-import Link from "next/link";
+import { getAllArticles } from "@/lib/articles";
+import { ArticleCard } from "@/components/article/ArticleCard";
+import type { Metadata } from "next";
 
 export default function BlogPage() {
-  const listArticles = articles;
+  const listArticles = getAllArticles();
+
   return (
-    <section>
-      <h2 className="hidden">Blog</h2>
-      <div className="flex flex-wrap gap-4 px-4 md:px-10">
-        {listArticles.map((article) => (
-          // TODO: NEXT TIME EDIT STYLE FLEX WITH W-1/2 OR W-1/3
-          <article
-            key={article.slug}
-            className="bg-gray-900 p-4 rounded-md"
-            style={{ flex: "0 0 calc(100%/4)" }}
-          >
-            <h3>{article.title}</h3>
-            <p>{article.excerpt}</p>
-            <Link href={`/blog/${article.slug}`} className="text-blue-500">
-              Read more
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
+    <main className="px-4 md:px-10 py-10" aria-labelledby="blog-heading">
+      <header className="max-w-5xl mx-auto mb-8">
+        <h1
+          id="blog-heading"
+          className="text-3xl md:text-4xl font-bold tracking-tight text-gray-50"
+        >
+          Knotic Blog
+        </h1>
+        <p className="mt-2 text-gray-400">
+          Articles on structured thinking, knowledge, and building Knotic.
+        </p>
+      </header>
+
+      <section aria-label="Article list" className="max-w-5xl mx-auto">
+        {listArticles.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-gray-800 bg-gray-900/40 p-8 text-center">
+            <h2 className="text-lg font-semibold text-gray-100">
+              No articles yet
+            </h2>
+            <p className="mt-2 text-sm text-gray-400">
+              When new posts are published, they&apos;ll appear here in the
+              Knotic blog.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {listArticles.map((article) => (
+              <ArticleCard key={article.slug} article={article} />
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
   );
 }
 
 export const metadata: Metadata = {
-  title: "Knotic - Blog",
-  description: "Blog of Knotic",
+  title: "Knotic Blog",
+  description:
+    "Explore articles from Knotic on structured thinking, writing, knowledge management, and modern content architecture.",
 };
