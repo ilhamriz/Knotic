@@ -54,16 +54,15 @@ const ArticlePage = async ({ params }: Props) => {
           )}
         </header>
 
-        <figure className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/40">
+        <div className="relative h-[300px] sm:h-[400px] w-full overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/40">
           <Image
             src={article.coverImage}
             alt={`Cover image for ${article.title}`}
-            width={1200}
-            height={630}
-            className="h-auto w-full object-cover"
+            fill
+            className="object-cover"
             priority
           />
-        </figure>
+        </div>
 
         <section
           aria-label="Article content"
