@@ -2,17 +2,17 @@ import { getAllArticles } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
 import type { Metadata } from "next";
 
-export default function BlogPage() {
+export default function ArticlesPage() {
   const listArticles = getAllArticles();
 
   return (
-    <main className="px-4 md:px-10 py-10" aria-labelledby="blog-heading">
+    <main className="px-4 md:px-10 py-10" aria-labelledby="articles-heading">
       <header className="max-w-5xl mx-auto mb-8">
         <h1
-          id="blog-heading"
+          id="articles-heading"
           className="text-3xl md:text-4xl font-bold tracking-tight text-gray-50"
         >
-          Knotic Blog
+          Knotic Articles
         </h1>
         <p className="mt-2 text-gray-400">
           Articles on structured thinking, knowledge, and building Knotic.
@@ -27,7 +27,7 @@ export default function BlogPage() {
             </h2>
             <p className="mt-2 text-sm text-gray-400">
               When new posts are published, they&apos;ll appear here in the
-              Knotic blog.
+              Knotic articles page.
             </p>
           </div>
         ) : (
@@ -43,7 +43,8 @@ export default function BlogPage() {
 }
 
 export const metadata: Metadata = {
-  title: "Knotic Blog",
+  title: "Knotic Articles",
   description:
     "Explore articles from Knotic on structured thinking, writing, knowledge management, and modern content architecture.",
 };
+

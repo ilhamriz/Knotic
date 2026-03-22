@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: notFoundTitle,
       description: notFoundDescription,
       alternates: {
-        canonical: "/blog",
+        canonical: "/articles",
       },
       openGraph: {
         title: notFoundTitle,
@@ -107,19 +107,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${article.title} | Knotic Blog`;
+  const title = `${article.title} | Knotic Articles`;
   const description = article.excerpt;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/blog/${article.slug}`,
+      canonical: `/articles/${article.slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `/blog/${article.slug}`,
+      url: `/articles/${article.slug}`,
       siteName: "Knotic",
       type: "article",
       images: [
@@ -137,3 +137,4 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default ArticlePage;
+

@@ -48,7 +48,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
       <footer className="mt-4">
         <Link
-          href={`/blog/${article.slug}`}
+          href={`/articles/${article.slug}`}
           className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950 rounded-md"
           aria-label={`Read full article: ${article.title}`}
         >

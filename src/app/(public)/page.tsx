@@ -29,10 +29,10 @@ export default function Home() {
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
           <Link
-            href="/blog"
+            href="/articles"
             className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
           >
-            Explore the blog
+            Explore the articles
           </Link>
           <Link
             href="#features"
@@ -104,18 +104,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Blog Preview */}
+      {/* Articles Preview */}
       <section
-        aria-labelledby="blog-preview-heading"
+        aria-labelledby="articles-preview-heading"
         className="max-w-5xl mx-auto"
       >
         <header className="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
           <div>
             <h2
-              id="blog-preview-heading"
+              id="articles-preview-heading"
               className="text-2xl md:text-3xl font-semibold text-gray-50"
             >
-              From the Knotic blog
+              From the Knotic articles
             </h2>
             <p className="mt-2 text-sm md:text-base text-gray-400">
               Recent articles on structured thinking, writing, and building
@@ -123,7 +123,7 @@ export default function Home() {
             </p>
           </div>
           <Link
-            href="/blog"
+            href="/articles"
             className="text-sm font-medium text-blue-400 hover:text-blue-300"
           >
             View all articles
@@ -154,11 +154,11 @@ export default function Home() {
           <p className="mt-3 text-sm md:text-base text-blue-50/90 max-w-2xl">
             Knotic is still early, but the foundations are focused on
             high-quality writing, clear structure, and a modern content
-            architecture. Follow the blog to see how it evolves.
+            architecture. Follow the articles to see how it evolves.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
             <Link
-              href="/blog"
+              href="/articles"
               className="inline-flex items-center justify-center rounded-full bg-gray-950/80 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
             >
               Read the latest articles
