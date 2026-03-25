@@ -1,0 +1,17 @@
+[
+  {
+    "slug": "test-title-1",
+    "title": "Test title 1",
+    "excerpt": "Test excerpt 1",
+    "coverImage": "/images/articles/designing-modern-content-platform.jpg",
+    "tags": [
+      "front-end",
+      "design",
+      "technology"
+    ],
+    "content": "# Test content\n\nModern content platforms must do more than just display text.\n\nThey must:\n- Load fast\n- Rank well on search engines\n- Be accessible to all users\n- Provide smooth editing experiences\n\nKnotic is built with these principles in mind — combining modern frontend architecture with user-centered design.",
+    "author": "Ilham Rizky",
+    "publishedAt": "2026-03-25T05:25:08.771Z",
+    "readingTime": "1 min read"
+  }
+]
