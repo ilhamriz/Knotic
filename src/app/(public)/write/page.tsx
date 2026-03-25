@@ -3,6 +3,41 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function renderMarkdown(text: string) {
+  // Simple markdown renderer - handles basic elements
+  return text
+    .replace(
+      /^### (.*$)/gim,
+      '<h3 class="text-lg font-semibold text-gray-50 mt-4 mb-2">$1</h3>',
+    )
+    .replace(
+      /^## (.*$)/gim,
+      '<h2 class="text-xl font-semibold text-gray-50 mt-6 mb-3">$1</h2>',
+    )
+    .replace(
+      /^# (.*$)/gim,
+      '<h1 class="text-2xl font-bold text-gray-50 mt-8 mb-4">$1</h1>',
+    )
+    .replace(/\*\*(.*)\*\*/gim, '<strong class="font-semibold">$1</strong>')
+    .replace(/\*(.*)\*/gim, "<em>$1</em>")
+    .replace(
+      /`([^`]+)`/gim,
+      '<code class="bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">$1</code>',
+    )
+    .replace(
+      /!\[([^\]]*)\]\(([^)]+)\)/gim,
+      '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg mt-4 mb-4" />',
+    )
+    .replace(
+      /\[([^\]]+)\]\(([^)]+)\)/gim,
+      '<a href="$2" class="text-blue-400 hover:text-blue-300 underline">$1</a>',
+    )
+    .replace(/\n\n/gim, '</p><p class="mb-4">')
+    .replace(/\n/gim, "<br/>")
+    .replace(/^/, '<p class="mb-4">')
+    .replace(/$/, "</p>");
+}
+
 export default function WritePage() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -56,11 +91,16 @@ export default function WritePage() {
   };
 
   return (
-    <main className="px-4 md:px-10 py-10 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-50 mb-6">Write a new article</h1>
+    <main className="px-4 md:px-10 py-10 max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold text-gray-50 mb-6">
+        Write a new article
+      </h1>
       <form onSubmit={onSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="title">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="title"
+          >
             Title
           </label>
           <input
@@ -73,7 +113,10 @@ export default function WritePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="excerpt">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="excerpt"
+          >
             Excerpt
           </label>
           <textarea
@@ -87,7 +130,10 @@ export default function WritePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="coverImage">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="coverImage"
+          >
             Cover Image URL
           </label>
           <input
@@ -100,7 +146,10 @@ export default function WritePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="tags">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="tags"
+          >
             Tags (comma-separated)
           </label>
           <input
@@ -112,7 +161,10 @@ export default function WritePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="author">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="author"
+          >
             Author
           </label>
           <input
@@ -124,17 +176,29 @@ export default function WritePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-200" htmlFor="content">
+          <label
+            className="block text-sm font-medium text-gray-200"
+            htmlFor="content"
+          >
             Content (Markdown)
           </label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-            rows={12}
-            className="mt-1 block w-full rounded-lg border border-gray-700 bg-gray-900 px-3 py-2 text-white font-mono"
-          />
+          <div className="mt-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[400px]">
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+              rows={15}
+              className="block w-full rounded-lg border border-gray-700 bg-gray-900 px-3 py-2 text-white font-mono resize-none"
+              placeholder="Write your markdown here..."
+            />
+            <div className="block w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-2 text-white overflow-auto">
+              <div
+                className="prose prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
