@@ -31,15 +31,15 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <p className="text-sm text-gray-400 line-clamp-3">{article.excerpt}</p>
 
         {article.tags.length > 0 && (
-          <ul
-            aria-label="Article tags"
-            className="mt-2 flex flex-wrap gap-1.5"
-          >
+          <ul aria-label="Article tags" className="mt-2 flex flex-wrap gap-1.5">
             {article.tags.map((tag) => (
               <li key={tag}>
-                <span className="inline-flex items-center rounded-full bg-gray-800 px-2.5 py-0.5 text-[11px] font-medium text-gray-100">
+                <Link
+                  href={`/tags/${encodeURIComponent(tag)}`}
+                  className="inline-flex items-center rounded-full bg-gray-800 px-2.5 py-0.5 text-[11px] font-medium text-gray-100 hover:bg-gray-700 transition-colors"
+                >
                   {tag}
-                </span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -61,4 +61,3 @@ export function ArticleCard({ article }: ArticleCardProps) {
     </article>
   );
 }
-

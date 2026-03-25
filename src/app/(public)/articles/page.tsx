@@ -1,6 +1,7 @@
 import { getAllArticles } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export default function ArticlesPage() {
   const listArticles = getAllArticles();
@@ -29,6 +30,14 @@ export default function ArticlesPage() {
               When new posts are published, they&apos;ll appear here in the
               Knotic articles page.
             </p>
+            <div className="mt-6">
+              <Link
+                href="/write"
+                className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+              >
+                Write the first article
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -47,4 +56,3 @@ export const metadata: Metadata = {
   description:
     "Explore articles from Knotic on structured thinking, writing, knowledge management, and modern content architecture.",
 };
-

@@ -1,4 +1,4 @@
-import { Article } from "@/lib/articles";
+import { Article, getAllArticles } from "@/lib/articles";
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
@@ -72,11 +72,11 @@ export async function POST(request: Request) {
           .filter(Boolean);
 
     const slugBase = makeSlug(title);
-    const existing = readArticles();
+    const allArticles = getAllArticles();
 
     let slug = slugBase;
     let counter = 1;
-    while (existing.some((item) => item.slug === slug)) {
+    while (allArticles.some((item) => item.slug === slug)) {
       slug = `${slugBase}-${counter}`;
       counter += 1;
     }
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
       readingTime,
     };
 
-    const updated = [...existing, newArticle];
+    const updated = [...readArticles(), newArticle];
     writeArticles(updated);
 
     return NextResponse.json({ article: newArticle }, { status: 201 });

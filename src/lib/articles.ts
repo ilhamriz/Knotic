@@ -181,6 +181,12 @@ export function getAllArticles(): ArticlePreview[] {
   );
 }
 
+export function getArticlesByTag(tag: string): ArticlePreview[] {
+  return getAllArticles().filter((article) =>
+    article.tags.some((t) => t.toLowerCase() === tag.toLowerCase()),
+  );
+}
+
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const filePath = getArticleFilePath(slug);
 
