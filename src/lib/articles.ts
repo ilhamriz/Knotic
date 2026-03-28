@@ -3,7 +3,9 @@ import path from "node:path";
 
 import matter from "gray-matter";
 import { remark } from "remark";
-import html from "remark-html";
+import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
 
 export type ArticleFrontmatter = {
   title: string;
@@ -43,12 +45,6 @@ export function calculateReadingTimeFromText(text: string) {
   const wordsPerMinute = 200;
   const minutes = Math.max(1, Math.ceil(words / wordsPerMinute));
   return `${minutes} min read`;
-}
-
-function ensureArticlesDataDir() {
-  if (!fs.existsSync(ARTICLES_DATA_DIR)) {
-    fs.mkdirSync(ARTICLES_DATA_DIR, { recursive: true });
-  }
 }
 
 function readJsonArticles(): Array<ArticlePreview & { content: string }> {
@@ -98,7 +94,7 @@ function getJsonArticleBySlug(
 ): (ArticlePreview & { content: string }) | null {
   const jsonArticles = readJsonArticles();
   const match = jsonArticles.find((article) => article.slug === slug);
-  return match || null;
+  return match ?? null;
 }
 
 function assertFrontmatter(
@@ -198,7 +194,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
       slug,
     );
 
-    const processed = await remark().use(html).process(content);
+    const processed = await remark()
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
     const contentHtml = processed.toString();
 
     return {
@@ -212,7 +212,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 
   const jsonArticle = getJsonArticleBySlug(slug);
   if (jsonArticle) {
-    const processed = await remark().use(html).process(jsonArticle.content);
+    const processed = await remark()
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(jsonArticle.content);
     const contentHtml = processed.toString();
     return {
       slug: jsonArticle.slug,

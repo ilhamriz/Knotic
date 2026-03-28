@@ -2,6 +2,7 @@ import { getAllArticles, getArticleBySlug } from "@/lib/articles";
 import { formatArticlePublishedDate } from "@/lib/utils";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,43 +19,9 @@ const ArticlePage = async ({ params }: Props) => {
 
   return (
     <main className="px-4 md:px-6 lg:px-0" aria-labelledby="article-title">
-      <article className="max-w-3xl mx-auto py-12 space-y-8">
-        <header className="space-y-4">
-          <p className="text-sm text-gray-400">
-            <span className="font-medium text-gray-200">{article.author}</span>
-            <span aria-hidden="true" className="px-2">
-              •
-            </span>
-            <time dateTime={article.publishedAt}>{formattedDate}</time>
-            <span aria-hidden="true" className="px-2">
-              •
-            </span>
-            <span>{article.readingTime}</span>
-          </p>
-
-          <h1
-            id="article-title"
-            className="text-3xl md:text-4xl font-bold tracking-tight text-gray-50"
-          >
-            {article.title}
-          </h1>
-
-          <p className="text-base text-gray-400 max-w-2xl">{article.excerpt}</p>
-
-          {article.tags.length > 0 && (
-            <ul aria-label="Article tags" className="flex flex-wrap gap-2 pt-2">
-              {article.tags.map((tag) => (
-                <li key={tag}>
-                  <span className="inline-flex items-center rounded-full bg-gray-800 px-3 py-1 text-xs font-medium text-gray-100">
-                    {tag}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </header>
-
-        <div className="relative h-[300px] sm:h-[400px] w-full overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/40">
+      <article className="max-w-4xl mx-auto py-12 space-y-12">
+        {/* Cover Image */}
+        <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/40">
           <Image
             src={article.coverImage}
             alt={`Cover image for ${article.title}`}
@@ -64,9 +31,62 @@ const ArticlePage = async ({ params }: Props) => {
           />
         </div>
 
+        {/* Article Header */}
+        <header className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+              <span className="font-medium text-gray-200">
+                {article.author}
+              </span>
+              <span aria-hidden="true" className="hidden sm:inline">
+                •
+              </span>
+              <time
+                dateTime={article.publishedAt}
+                className="whitespace-nowrap"
+              >
+                {formattedDate}
+              </time>
+              <span aria-hidden="true" className="hidden sm:inline">
+                •
+              </span>
+              <span className="whitespace-nowrap">{article.readingTime}</span>
+            </div>
+          </div>
+
+          <h1
+            id="article-title"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-50 leading-tight"
+          >
+            {article.title}
+          </h1>
+
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed">
+            {article.excerpt}
+          </p>
+
+          {article.tags.length > 0 && (
+            <div className="pt-4">
+              <ul aria-label="Article tags" className="flex flex-wrap gap-3">
+                {article.tags.map((tag) => (
+                  <li key={tag}>
+                    <Link
+                      href={`/tags/${encodeURIComponent(tag)}`}
+                      className="inline-flex items-center rounded-full bg-gray-800 px-4 py-2 text-sm font-medium text-gray-100 hover:bg-gray-700 transition-colors"
+                    >
+                      {tag}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </header>
+
+        {/* Article Content */}
         <section
           aria-label="Article content"
-          className="prose prose-invert max-w-none leading-relaxed"
+          className="prose prose-invert prose-lg max-w-none prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700"
         >
           <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
         </section>
@@ -137,4 +157,3 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default ArticlePage;
-

@@ -35,6 +35,12 @@ export default function Home() {
             Explore the articles
           </Link>
           <Link
+            href="/search"
+            className="inline-flex items-center justify-center rounded-full border border-gray-700 px-6 py-2.5 text-sm font-semibold text-gray-100 hover:border-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+          >
+            Search articles
+          </Link>
+          <Link
             href="/write"
             className="inline-flex items-center justify-center rounded-full border border-blue-500/70 bg-blue-600/20 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
           >
