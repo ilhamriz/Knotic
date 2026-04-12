@@ -13,5 +13,20 @@
     "author": "Ilham Rizky",
     "publishedAt": "2026-03-25T05:25:08.771Z",
     "readingTime": "1 min read"
+  },
+  {
+    "slug": "ilham-create-1",
+    "title": "Ilham create 1",
+    "excerpt": "Ilham create 1",
+    "coverImage": "/images/articles/designing-modern-content-platform.jpg",
+    "tags": [
+      "testing"
+    ],
+    "content": "# Title\n\nIlham create 1",
+    "authorId": "111152343415823066444",
+    "authorName": "ilham rizky",
+    "authorEmail": "ilhamriz1997@gmail.com",
+    "publishedAt": "2026-04-12T09:51:09.575Z",
+    "readingTime": "1 min read"
   }
 ]

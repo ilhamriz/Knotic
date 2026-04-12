@@ -19,6 +19,9 @@ export type ArticleFrontmatter = {
 export type ArticlePreview = ArticleFrontmatter & {
   slug: string;
   readingTime: string;
+  authorId?: string;
+  authorName?: string;
+  authorEmail?: string;
 };
 
 export type Article = ArticleFrontmatter & {
@@ -26,6 +29,24 @@ export type Article = ArticleFrontmatter & {
   content: string; // raw markdown
   contentHtml: string;
   readingTime: string;
+  authorId?: string;
+  authorName?: string;
+  authorEmail?: string;
+};
+
+type StoredArticle = {
+  slug: string;
+  title: string;
+  publishedAt: string;
+  excerpt: string;
+  coverImage: string;
+  tags: string[];
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorEmail: string;
+  readingTime: string;
+  author?: string;
 };
 
 const ARTICLES_DIR = path.join(process.cwd(), "src", "content", "articles");
@@ -47,7 +68,7 @@ export function calculateReadingTimeFromText(text: string) {
   return `${minutes} min read`;
 }
 
-function readJsonArticles(): Array<ArticlePreview & { content: string }> {
+function readJsonArticles(): StoredArticle[] {
   if (!fs.existsSync(ARTICLES_JSON_PATH)) {
     return [];
   }
@@ -67,10 +88,11 @@ function readJsonArticles(): Array<ArticlePreview & { content: string }> {
           typeof item.publishedAt === "string" &&
           typeof item.excerpt === "string" &&
           typeof item.coverImage === "string" &&
-          typeof item.author === "string" &&
           Array.isArray(item.tags) &&
           item.tags.every((t: unknown) => typeof t === "string") &&
-          typeof item.content === "string"
+          typeof item.content === "string" &&
+          typeof item.readingTime === "string" &&
+          (typeof item.authorId === "string" || typeof item.author === "string")
         );
       })
       .map((item) => ({
@@ -79,19 +101,30 @@ function readJsonArticles(): Array<ArticlePreview & { content: string }> {
         publishedAt: item.publishedAt,
         excerpt: item.excerpt,
         coverImage: item.coverImage,
-        author: item.author,
         tags: item.tags,
         content: item.content,
-        readingTime: calculateReadingTimeFromText(item.content),
+        readingTime: item.readingTime,
+        authorId:
+          typeof item.authorId === "string"
+            ? item.authorId
+            : (item.author ?? ""),
+        authorName:
+          typeof item.authorName === "string"
+            ? item.authorName
+            : (item.author ?? "Unknown"),
+        authorEmail:
+          typeof item.authorEmail === "string" ? item.authorEmail : "",
+        author:
+          typeof item.author === "string"
+            ? item.author
+            : (item.authorName ?? "Unknown"),
       }));
   } catch {
     return [];
   }
 }
 
-function getJsonArticleBySlug(
-  slug: string,
-): (ArticlePreview & { content: string }) | null {
+function getJsonArticleBySlug(slug: string): StoredArticle | null {
   const jsonArticles = readJsonArticles();
   const match = jsonArticles.find((article) => article.slug === slug);
   return match ?? null;
@@ -165,7 +198,10 @@ export function getAllArticles(): ArticlePreview[] {
       publishedAt: article.publishedAt,
       excerpt: article.excerpt,
       coverImage: article.coverImage,
-      author: article.author,
+      author: article.authorName ?? article.author,
+      authorId: article.authorId,
+      authorName: article.authorName,
+      authorEmail: article.authorEmail,
       tags: article.tags,
       readingTime: calculateReadingTimeFromText(article.content),
     })),
@@ -180,6 +216,12 @@ export function getAllArticles(): ArticlePreview[] {
 export function getArticlesByTag(tag: string): ArticlePreview[] {
   return getAllArticles().filter((article) =>
     article.tags.some((t) => t.toLowerCase() === tag.toLowerCase()),
+  );
+}
+
+export function getUserArticles(authorId: string): ArticlePreview[] {
+  return getAllArticles().filter(
+    (article) => article.authorId && article.authorId === authorId,
   );
 }
 
@@ -223,7 +265,10 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
       title: jsonArticle.title,
       excerpt: jsonArticle.excerpt,
       coverImage: jsonArticle.coverImage,
-      author: jsonArticle.author,
+      author: jsonArticle.authorName ?? jsonArticle.author,
+      authorId: jsonArticle.authorId,
+      authorName: jsonArticle.authorName,
+      authorEmail: jsonArticle.authorEmail,
       tags: jsonArticle.tags,
       publishedAt: jsonArticle.publishedAt,
       content: jsonArticle.content,

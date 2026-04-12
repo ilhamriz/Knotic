@@ -1,10 +1,26 @@
-import { Article, getAllArticles } from "@/lib/articles";
+import { getAllArticles } from "@/lib/articles";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 
 const DATA_DIR = path.join(process.cwd(), "src", "data");
 const DATA_FILE = path.join(DATA_DIR, "articles.json");
+
+type StoredArticle = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  coverImage: string;
+  tags: string[];
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorEmail: string;
+  publishedAt: string;
+  readingTime: string;
+};
 
 function makeSlug(title: string) {
   return title
@@ -37,7 +53,7 @@ function readArticles() {
   return [];
 }
 
-function writeArticles(articles: Article[]) {
+function writeArticles(articles: StoredArticle[]) {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
@@ -46,16 +62,20 @@ function writeArticles(articles: Article[]) {
 }
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
-    const { title, excerpt, coverImage, tags, content, author } = body;
+    const { title, excerpt, coverImage, tags, content } = body;
 
     if (
       typeof title !== "string" ||
       typeof excerpt !== "string" ||
       typeof coverImage !== "string" ||
       typeof content !== "string" ||
-      typeof author !== "string" ||
       (typeof tags !== "string" && !Array.isArray(tags))
     ) {
       return NextResponse.json(
@@ -83,15 +103,20 @@ export async function POST(request: Request) {
 
     const publishedAt = new Date().toISOString();
     const readingTime = calculateReadingTime(content);
+    const authorId = session.user.id ?? session.user.email ?? "";
+    const authorName = session.user.name ?? session.user.email ?? "Unknown";
+    const authorEmail = session.user.email ?? "";
 
-    const newArticle = {
+    const newArticle: StoredArticle = {
       slug,
       title,
       excerpt,
       coverImage,
       tags: normalizedTags,
       content,
-      author,
+      authorId,
+      authorName,
+      authorEmail,
       publishedAt,
       readingTime,
     };
@@ -107,4 +132,30 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
+}
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const url = new URL(request.url);
+  const slug = url.searchParams.get("slug");
+  if (!slug) {
+    return NextResponse.json({ error: "Missing slug" }, { status: 400 });
+  }
+
+  const authorId = session.user.id ?? session.user.email ?? "";
+  const existingArticles = readArticles();
+  const article = existingArticles.find((item) => item.slug === slug);
+
+  if (!article || article.authorId !== authorId) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const updated = existingArticles.filter((item) => item.slug !== slug);
+  writeArticles(updated);
+
+  return NextResponse.json({ success: true }, { status: 200 });
 }

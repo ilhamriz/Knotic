@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layouts/Navbar";
 import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 import Footer from "@/components/layouts/Footer";
+import Providers from "@/components/providers/providers";
 
 export const metadata: Metadata = {
   // metadataBase: new URL("https://knotic.vercel.app"),
@@ -26,13 +27,15 @@ export default function RootLayout({
       </head>
       <body>
         <h1 className="hidden">Knotic</h1>
-        <header>
-          <Navbar />
-        </header>
-        <main>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </main>
-        <Footer />
+        <Providers>
+          <header>
+            <Navbar />
+          </header>
+          <main>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
