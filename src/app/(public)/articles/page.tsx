@@ -1,10 +1,19 @@
-import { getAllArticles } from "@/lib/articles";
+import { getAllArticles, type ArticlePreview } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export default function ArticlesPage() {
-  const listArticles = getAllArticles();
+export default async function ArticlesPage() {
+  let listArticles: ArticlePreview[] = [];
+
+  try {
+    listArticles = await getAllArticles();
+  } catch (error) {
+    console.warn(
+      "Failed to fetch articles. Database may not be available during build.",
+      error,
+    );
+  }
 
   return (
     <main className="px-4 md:px-10 py-10" aria-labelledby="articles-heading">

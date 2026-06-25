@@ -23,7 +23,7 @@ export default function DashboardClient({
 
     try {
       const response = await fetch(
-        `/api/articles?slug=${encodeURIComponent(slug)}`,
+        `/api/articles/${encodeURIComponent(slug)}`,
         {
           method: "DELETE",
         },

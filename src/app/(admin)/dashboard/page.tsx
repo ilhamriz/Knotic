@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   }
 
   const authorId = session.user.id ?? session.user.email ?? "";
-  const articles = getUserArticles(authorId);
+  const articles = await getUserArticles(authorId);
 
   return <DashboardClient articles={articles} />;
 }

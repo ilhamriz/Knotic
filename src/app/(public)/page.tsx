@@ -1,10 +1,19 @@
 import { ArticleCard } from "@/components/article/ArticleCard";
-import { getAllArticles } from "@/lib/articles";
+import { getAllArticles, type ArticlePreview } from "@/lib/articles";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export default function Home() {
-  const latestArticles = getAllArticles().slice(0, 3);
+export default async function Home() {
+  let latestArticles: ArticlePreview[] = [];
+
+  try {
+    latestArticles = (await getAllArticles()).slice(0, 3);
+  } catch (error) {
+    console.warn(
+      "Failed to fetch articles for home page. Database may not be available during build.",
+      error,
+    );
+  }
 
   return (
     <main className="px-4 md:px-10 lg:px-16 xl:px-24 py-12 space-y-16">

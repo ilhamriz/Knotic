@@ -96,9 +96,17 @@ const ArticlePage = async ({ params }: Props) => {
 };
 
 export async function generateStaticParams() {
-  return getAllArticles().map((article) => ({
-    slug: article.slug,
-  }));
+  try {
+    return (await getAllArticles()).map((article) => ({
+      slug: article.slug,
+    }));
+  } catch (error) {
+    console.warn(
+      "Failed to generate static params for articles. Database may not be available during build.",
+      error,
+    );
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

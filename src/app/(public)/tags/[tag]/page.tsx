@@ -8,7 +8,7 @@ type Props = { params: Promise<{ tag: string }> };
 export default async function TagPage({ params }: Props) {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
-  const articles = getArticlesByTag(decodedTag);
+  const articles = await getArticlesByTag(decodedTag);
 
   return (
     <main className="px-4 md:px-10 py-10" aria-labelledby="tag-heading">
