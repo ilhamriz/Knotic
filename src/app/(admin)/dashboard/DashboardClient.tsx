@@ -50,7 +50,7 @@ export default function DashboardClient({
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-50">Dashboard</h1>
         <p className="mt-2 text-gray-400">
-          Manage your articles and delete posts you created.
+          Manage your articles, create, edit, and delete posts you created.
         </p>
       </header>
 
@@ -93,6 +93,13 @@ export default function DashboardClient({
                     className="rounded-full border border-gray-700 bg-gray-950 px-4 py-2 text-sm text-white hover:border-gray-500"
                   >
                     View
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/edit/${article.slug}`)}
+                    className="rounded-full border border-blue-500/50 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-300 hover:bg-blue-500/20 hover:border-blue-400"
+                  >
+                    Edit
                   </button>
                   <button
                     type="button"
