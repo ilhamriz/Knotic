@@ -1,3 +1,5 @@
+// app/api/articles/route.ts
+
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
@@ -28,7 +30,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { title, excerpt, coverImage, tags, content } = body;
+    const { title, excerpt, coverImage, tags, content, status = "draft" } = body;
 
     if (
       typeof title !== "string" ||
@@ -39,6 +41,13 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json(
         { error: "Invalid article payload" },
+        { status: 400 },
+      );
+    }
+
+    if (status !== "draft" && status !== "published") {
+      return NextResponse.json(
+        { error: "Invalid status. Must be 'draft' or 'published'." },
         { status: 400 },
       );
     }
@@ -78,6 +87,7 @@ export async function POST(request: Request) {
         tags: normalizedTags,
         slug,
         readingTime,
+        status,
         authorId: session.user.id,
       },
       include: {

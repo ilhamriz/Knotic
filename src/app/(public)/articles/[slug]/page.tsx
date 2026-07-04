@@ -1,6 +1,10 @@
+// app/(public)/articles/[slug]/page.tsx
+
 import { getAllArticles, getArticleBySlug } from "@/lib/articles";
+import { authOptions } from "@/lib/auth";
 import { formatArticlePublishedDate } from "@/lib/utils";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,9 +13,16 @@ type Props = { params: Promise<{ slug: string }> };
 
 const ArticlePage = async ({ params }: Props) => {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const [article, session] = await Promise.all([
+    getArticleBySlug(slug),
+    getServerSession(authOptions),
+  ]);
 
   if (!article) {
+    notFound();
+  }
+
+  if (article.status === "draft" && session?.user?.id !== article.authorId) {
     notFound();
   }
 
@@ -113,7 +124,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
 
-  if (!article) {
+  if (!article || article.status === "draft") {
     const notFoundTitle = "Article Not Found | Knotic";
     const notFoundDescription =
       "The requested article could not be found on Knotic.";

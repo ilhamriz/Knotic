@@ -1,3 +1,5 @@
+// lib/articles.ts
+
 import { prisma } from "./prisma";
 import { remark } from "remark";
 import remarkRehype from "remark-rehype";
@@ -16,6 +18,7 @@ export type ArticleFrontmatter = {
 export type ArticlePreview = ArticleFrontmatter & {
   slug: string;
   readingTime: string;
+  status: string;
   authorId?: string;
   authorName?: string;
   authorEmail?: string;
@@ -26,6 +29,7 @@ export type Article = ArticleFrontmatter & {
   content: string;
   contentHtml: string;
   readingTime: string;
+  status: string;
   authorId?: string;
   authorName?: string;
   authorEmail?: string;
@@ -40,6 +44,7 @@ export function calculateReadingTimeFromText(text: string) {
 
 export async function getAllArticles(): Promise<ArticlePreview[]> {
   const articles = await prisma.article.findMany({
+    where: { status: "published" },
     include: {
       author: true,
     },
@@ -60,6 +65,7 @@ export async function getAllArticles(): Promise<ArticlePreview[]> {
     authorName: article.author?.name || undefined,
     authorEmail: article.author?.email || undefined,
     tags: article.tags,
+    status: article.status,
     readingTime: `${article.readingTime} min read`,
   }));
 }
@@ -98,6 +104,7 @@ export async function getUserArticles(
     authorName: article.author?.name || undefined,
     authorEmail: article.author?.email || undefined,
     tags: article.tags,
+    status: article.status,
     readingTime: `${article.readingTime} min read`,
   }));
 }
@@ -132,6 +139,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     authorName: article.author?.name || undefined,
     authorEmail: article.author?.email || undefined,
     tags: article.tags,
+    status: article.status,
     content: article.content,
     contentHtml,
     readingTime: `${article.readingTime} min read`,

@@ -1,3 +1,4 @@
+// app/(public)/write/WriteForm.tsx
 "use client";
 
 import { FormEvent, useState } from "react";
@@ -31,6 +32,7 @@ export default function WriteForm({ session }: WriteFormProps) {
           coverImage,
           tags,
           content,
+          status: "draft",
         }),
       });
 
@@ -40,8 +42,7 @@ export default function WriteForm({ session }: WriteFormProps) {
         return;
       }
 
-      const { article } = await response.json();
-      setStatus("Article created successfully 🎉");
+      setStatus("Draft saved successfully. Publish it from your dashboard.");
       setTitle("");
       setExcerpt("");
       setCoverImage("");
@@ -49,7 +50,7 @@ export default function WriteForm({ session }: WriteFormProps) {
       setContent("");
 
       setTimeout(() => {
-        router.push(`/articles/${article.slug}`);
+        router.push("/dashboard");
       }, 800);
     } catch (error) {
       console.error(error);
