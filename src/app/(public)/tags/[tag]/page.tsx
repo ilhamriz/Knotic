@@ -1,5 +1,6 @@
 import { getArticlesByTag } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
+import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -68,8 +69,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
 
-  return {
-    title: `Articles tagged "${decodedTag}" | Knotic`,
-    description: `Browse articles tagged with "${decodedTag}" on Knotic.`,
-  };
+  return buildMetadata(
+    `Articles tagged "${decodedTag}"`,
+    `Browse articles tagged with "${decodedTag}" on Knotic.`,
+  );
 }

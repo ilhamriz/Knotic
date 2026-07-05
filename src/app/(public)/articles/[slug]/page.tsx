@@ -125,7 +125,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticleBySlug(slug);
 
   if (!article || article.status === "draft") {
-    const notFoundTitle = "Article Not Found | Knotic";
+    const notFoundTitle = "Article Not Found";
     const notFoundDescription =
       "The requested article could not be found on Knotic.";
 
@@ -146,7 +146,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = `${article.title} | Knotic Articles`;
+  const title = article.title;
   const description = article.excerpt;
 
   return {

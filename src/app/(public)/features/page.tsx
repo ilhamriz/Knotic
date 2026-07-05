@@ -1,10 +1,7 @@
-import { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 
 export default function FeaturesPage() {
   return <div>FeaturesPage</div>;
 }
 
-export const metadata: Metadata = {
-  title: "Knotic - Features",
-  description: "Features of Knotic",
-};
+export const metadata = buildMetadata("Features", "Features of Knotic.");

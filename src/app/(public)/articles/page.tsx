@@ -1,6 +1,6 @@
 import { getAllArticles, type ArticlePreview } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/metadata";
 import Link from "next/link";
 
 export default async function ArticlesPage() {
@@ -60,8 +60,7 @@ export default async function ArticlesPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: "Knotic Articles",
-  description:
-    "Explore articles from Knotic on structured thinking, writing, knowledge management, and modern content architecture.",
-};
+export const metadata = buildMetadata(
+  "Articles",
+  "Explore articles from Knotic on structured thinking, writing, knowledge management, and modern content architecture.",
+);
