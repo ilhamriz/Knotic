@@ -23,6 +23,16 @@ export async function PUT(
       content: string;
     };
 
+    // Validation cover image URL
+    try {
+      new URL(coverImage);
+    } catch {
+      return NextResponse.json(
+        { error: "coverImage must be a valid URL" },
+        { status: 400 },
+      );
+    }
+
     // Find the article
     const article = await prisma.article.findUnique({
       where: { slug },

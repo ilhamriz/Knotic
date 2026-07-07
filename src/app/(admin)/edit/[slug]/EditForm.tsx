@@ -119,7 +119,9 @@ export default function EditForm({ article, session }: EditFormProps) {
             onChange={(e) => setCoverImage(e.target.value)}
             required
             className="mt-1 block w-full rounded-lg border border-gray-700 bg-gray-900 px-3 py-2 text-white"
+            placeholder="https://images.unsplash.com/photo-..."
           />
+          <p className="mt-1 text-xs text-gray-500">Paste a public image URL</p>
         </div>
 
         <div>

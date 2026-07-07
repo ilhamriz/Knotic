@@ -30,7 +30,14 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { title, excerpt, coverImage, tags, content, status = "draft" } = body;
+    const {
+      title,
+      excerpt,
+      coverImage,
+      tags,
+      content,
+      status = "draft",
+    } = body;
 
     if (
       typeof title !== "string" ||
@@ -41,6 +48,16 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json(
         { error: "Invalid article payload" },
+        { status: 400 },
+      );
+    }
+
+    // Validation cover image URL
+    try {
+      new URL(coverImage);
+    } catch {
+      return NextResponse.json(
+        { error: "coverImage must be a valid URL" },
         { status: 400 },
       );
     }
