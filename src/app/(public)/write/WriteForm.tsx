@@ -4,6 +4,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
+import AiAssistant from "@/components/ai/AiAssistant";
 
 interface WriteFormProps {
   session: Session;
@@ -15,12 +16,12 @@ export default function WriteForm({ session }: WriteFormProps) {
   const [coverImage, setCoverImage] = useState("");
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("");
-  const [status, setStatus] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
   const router = useRouter();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("Saving...");
+    setNotification("Saving...");
 
     try {
       const response = await fetch("/api/articles", {
@@ -38,11 +39,13 @@ export default function WriteForm({ session }: WriteFormProps) {
 
       if (!response.ok) {
         const data = await response.json();
-        setStatus(`Error: ${data.error || "Unable to save article"}`);
+        setNotification(`Error: ${data.error || "Unable to save article"}`);
         return;
       }
 
-      setStatus("Draft saved successfully. Publish it from your dashboard.");
+      setNotification(
+        "Draft saved successfully. Publish it from your dashboard.",
+      );
       setTitle("");
       setExcerpt("");
       setCoverImage("");
@@ -54,7 +57,7 @@ export default function WriteForm({ session }: WriteFormProps) {
       }, 800);
     } catch (error) {
       console.error(error);
-      setStatus("Error: Unable to create article");
+      setNotification("Error: Unable to create article");
     }
   };
 
@@ -173,9 +176,18 @@ export default function WriteForm({ session }: WriteFormProps) {
           >
             Submit article
           </button>
-          {status && <p className="text-sm text-gray-300">{status}</p>}
+          {notification && (
+            <p className="text-sm text-gray-300">{notification}</p>
+          )}
         </div>
       </form>
+
+      <AiAssistant
+        content={content}
+        onApplyContent={(val) => setContent(val)}
+        onApplyTitle={(val) => setTitle(val)}
+        onApplyExcerpt={(val) => setExcerpt(val)}
+      />
     </main>
   );
 }

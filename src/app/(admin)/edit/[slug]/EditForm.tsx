@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import type { Article } from "@/lib/articles";
+import AiAssistant from "@/components/ai/AiAssistant";
 
 interface EditFormProps {
   article: Article;
@@ -16,12 +17,12 @@ export default function EditForm({ article, session }: EditFormProps) {
   const [coverImage, setCoverImage] = useState(article.coverImage);
   const [tags, setTags] = useState(article.tags.join(", "));
   const [content, setContent] = useState(article.content);
-  const [status, setStatus] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
   const router = useRouter();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("Saving...");
+    setNotification("Saving...");
 
     try {
       const response = await fetch(
@@ -41,18 +42,18 @@ export default function EditForm({ article, session }: EditFormProps) {
 
       if (!response.ok) {
         const data = await response.json();
-        setStatus(`Error: ${data.error || "Unable to save article"}`);
+        setNotification(`Error: ${data.error || "Unable to save article"}`);
         return;
       }
 
-      setStatus("Article updated successfully 🎉");
+      setNotification("Article updated successfully 🎉");
 
       setTimeout(() => {
         router.push(`/articles/${article.slug}`);
       }, 800);
     } catch (error) {
       console.error(error);
-      setStatus("Error: Unable to update article");
+      setNotification("Error: Unable to update article");
     }
   };
 
@@ -179,21 +180,28 @@ export default function EditForm({ article, session }: EditFormProps) {
           >
             Cancel
           </button>
-          {status && (
+          {notification && (
             <p
               className={`text-sm ${
-                status.startsWith("Error")
+                notification.startsWith("Error")
                   ? "text-red-400"
-                  : status === "Saving..."
+                  : notification === "Saving..."
                     ? "text-gray-400"
                     : "text-green-400"
               }`}
             >
-              {status}
+              {notification}
             </p>
           )}
         </div>
       </form>
+
+      <AiAssistant
+        content={content}
+        onApplyContent={(val) => setContent(val)}
+        onApplyTitle={(val) => setTitle(val)}
+        onApplyExcerpt={(val) => setExcerpt(val)}
+      />
     </main>
   );
 }
