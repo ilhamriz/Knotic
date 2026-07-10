@@ -2,18 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-type Action = "improve_writing" | "suggest_title" | "generate_excerpt";
+type Action =
+  | "improve_writing"
+  | "suggest_title"
+  | "generate_excerpt"
+  | "summarize_article";
 
 interface AssistRequestBody {
   action: Action;
   content: string;
   instruction?: string;
+  title?: string;
 }
 
 function buildPrompt(
   action: Action,
   content: string,
   instruction: string,
+  title?: string,
 ): { system: string; user: string } {
   switch (action) {
     case "improve_writing":
@@ -34,6 +40,12 @@ function buildPrompt(
           "You are an expert editor. Generate a compelling 1-2 sentence excerpt that summarizes the article and entices readers. Return only the excerpt with no explanation or preamble.",
         user: `Generate an excerpt for this article content${instruction ? `. Specific instruction: ${instruction}` : ""}:\n\n${content}`,
       };
+    case "summarize_article":
+      return {
+        system:
+          "You are a helpful assistant that summarizes articles clearly and concisely.",
+        user: `Summarize the following article in 3-5 sentences. Be clear and informative, capturing the main ideas.\n\nTitle: ${title ?? ""}\n\nContent: ${content}`,
+      };
   }
 }
 
@@ -45,7 +57,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body: AssistRequestBody = await req.json();
-    const { action, content, instruction = "" } = body;
+    const { action, content, instruction = "", title } = body;
 
     if (!action || !content) {
       return NextResponse.json(
@@ -54,7 +66,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { system, user } = buildPrompt(action, content, instruction);
+    const { system, user } = buildPrompt(action, content, instruction, title);
 
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`,

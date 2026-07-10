@@ -3,6 +3,7 @@
 import { getAllArticles, getArticleBySlug } from "@/lib/articles";
 import { authOptions } from "@/lib/auth";
 import { formatArticlePublishedDate } from "@/lib/utils";
+import ArticleSummarizer from "@/components/article/ArticleSummarizer";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
@@ -93,6 +94,14 @@ const ArticlePage = async ({ params }: Props) => {
             </div>
           )}
         </header>
+
+        {/* AI Summarizer — only for authenticated users */}
+        {session && (
+          <ArticleSummarizer
+            articleTitle={article.title}
+            articleContent={article.content}
+          />
+        )}
 
         {/* Article Content */}
         <section
