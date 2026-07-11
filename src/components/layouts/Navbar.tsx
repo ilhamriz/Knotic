@@ -7,21 +7,21 @@ const Navbar = () => {
   const isAuthenticated = status === "authenticated";
 
   return (
-    <nav className="z-20 fixed top-0 left-0 right-0 h-16 px-4 md:px-10 flex items-center justify-between border-b border-gray-800 bg-gray-950/80 backdrop-blur-sm">
-      {/* Logo */}
+    <nav className="fixed top-0 left-0 right-0 z-20 h-16 px-6 md:px-10 flex items-center justify-between border-b border-border-subtle bg-bg-elevated backdrop-blur-md">
+      {/* Wordmark */}
       <Link
         href="/"
-        className="text-lg font-bold text-gray-50 hover:text-white transition-colors"
+        className="text-lg font-semibold text-text-primary hover:text-primary transition-colors"
       >
         Knotic
       </Link>
 
-      {/* Nav links */}
-      <ul className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
+      {/* Center nav links */}
+      <ul className="hidden md:flex items-center gap-6">
         <li>
           <Link
             href="/articles"
-            className="hover:text-gray-100 transition-colors"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
             Articles
           </Link>
@@ -29,22 +29,9 @@ const Navbar = () => {
         <li>
           <Link
             href="/search"
-            className="hover:text-gray-100 transition-colors"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
             Search
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/features"
-            className="hover:text-gray-100 transition-colors"
-          >
-            Features
-          </Link>
-        </li>
-        <li>
-          <Link href="/about" className="hover:text-gray-100 transition-colors">
-            About
           </Link>
         </li>
         {isAuthenticated && (
@@ -52,7 +39,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/write"
-                className="hover:text-gray-100 transition-colors"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
               >
                 Write
               </Link>
@@ -60,7 +47,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/dashboard"
-                className="hover:text-gray-100 transition-colors"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
               >
                 Dashboard
               </Link>
@@ -71,11 +58,11 @@ const Navbar = () => {
 
       {/* Auth button */}
       <div>
-        {isAuthenticated ? (
+        {status === "loading" ? null : isAuthenticated ? (
           <button
             type="button"
             onClick={() => signOut()}
-            className="rounded-full border border-gray-700 px-4 py-1.5 text-sm font-medium text-gray-300 hover:border-gray-500 hover:text-white transition-colors cursor-pointer"
+            className="text-sm font-medium px-4 py-1.5 rounded-full border border-border-strong text-text-primary hover:bg-bg-surface transition-colors cursor-pointer"
           >
             Sign out
           </button>
@@ -83,7 +70,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => signIn()}
-            className="rounded-full bg-blue-500 px-4 py-1.5 text-sm font-semibold text-white hover:bg-blue-400 transition-colors cursor-pointer"
+            className="text-sm font-medium px-4 py-1.5 rounded-full border border-border-strong text-text-primary hover:bg-bg-surface transition-colors cursor-pointer"
           >
             Sign in
           </button>
