@@ -70,10 +70,10 @@ export default function ArticleSummarizer({
         <button
           onClick={handleSummarize}
           disabled={state === "loading"}
-          className="inline-flex items-center gap-2 rounded-lg bg-gray-800 border border-gray-700 px-4 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:border-gray-600 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-bg-elevated border border-border-default px-4 py-2 text-sm font-medium text-text-primary hover:bg-bg-elevated hover:border-border-strong disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           aria-label="Summarize article with AI"
         >
-          <SparkleIcon className="w-4 h-4 text-blue-400 shrink-0" />
+          <SparkleIcon className="w-4 h-4 text-primary shrink-0" />
           {state === "loading" ? "Summarizing…" : "Summarize with AI"}
           {state === "loading" && <LoadingSpinner />}
         </button>
@@ -81,29 +81,31 @@ export default function ArticleSummarizer({
 
       {/* Error message */}
       {state === "error" && error && (
-        <p className="mt-2 text-sm text-red-400">{error}</p>
+        <p className="mt-2 text-sm text-danger">{error}</p>
       )}
 
       {/* Summary panel */}
       {isVisible && summary && (
-        <div className="rounded-lg border border-gray-800 bg-gray-800/60 border-l-2 border-l-blue-500 overflow-hidden">
+        <div className="rounded-lg border border-border-default bg-bg-elevated border-l-2 border-l-primary overflow-hidden">
           <div className="px-4 pt-4 pb-3">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <SparkleIcon className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-blue-400">
+                <SparkleIcon className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                   AI Summary
                 </span>
               </div>
               <button
                 onClick={handleDismiss}
-                className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+                className="text-xs text-text-secondary hover:text-text-primary transition-colors"
                 aria-label="Dismiss AI summary"
               >
                 Dismiss
               </button>
             </div>
-            <p className="text-sm text-gray-300 leading-relaxed">{summary}</p>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              {summary}
+            </p>
           </div>
         </div>
       )}
