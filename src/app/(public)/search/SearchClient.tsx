@@ -1,3 +1,4 @@
+// app/(public)/search/SearchClient.tsx
 "use client";
 
 import { ArticleCard } from "@/components/article/ArticleCard";
@@ -29,11 +30,11 @@ export default function SearchClient({ articles }: SearchClientProps) {
     // 1. Initial State: No query entered
     if (!query.trim()) {
       return (
-        <div className="rounded-xl border border-dashed border-gray-800 bg-gray-900/40 p-12 text-center">
-          <h2 className="text-xl font-semibold text-gray-100 mb-2">
+        <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-12 text-center">
+          <h2 className="text-xl font-semibold text-text-primary mb-2">
             Start searching
           </h2>
-          <p className="text-gray-400">
+          <p className="text-text-secondary">
             Enter a search term to find articles by title, excerpt, or tags.
           </p>
         </div>
@@ -43,11 +44,11 @@ export default function SearchClient({ articles }: SearchClientProps) {
     // 2. Empty State: Query entered but no matches
     if (filteredArticles.length === 0) {
       return (
-        <div className="rounded-xl border border-dashed border-gray-800 bg-gray-900/40 p-12 text-center">
-          <h2 className="text-xl font-semibold text-gray-100 mb-2">
+        <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-12 text-center">
+          <h2 className="text-xl font-semibold text-text-primary mb-2">
             No results found
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-text-secondary mb-6">
             No articles match &ldquo;{query}&rdquo;. Try different keywords.
           </p>
         </div>
@@ -69,7 +70,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
       <header className="max-w-5xl mx-auto mb-8">
         <h1
           id="search-heading"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-gray-50 mb-6"
+          className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6"
         >
           Search Articles
         </h1>
@@ -84,12 +85,12 @@ export default function SearchClient({ articles }: SearchClientProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by title, excerpt, or tags..."
-            className="w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            className="w-full rounded-lg border border-border-default bg-bg-surface px-4 py-3 text-text-primary placeholder-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
         {query.trim() && (
-          <p className="mt-4 text-sm text-gray-400">
+          <p className="mt-4 text-sm text-text-secondary">
             {filteredArticles.length} result
             {filteredArticles.length !== 1 ? "s" : ""} for &ldquo;{query}&rdquo;
           </p>

@@ -1,3 +1,4 @@
+// app/(public)/login/page.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -16,25 +17,25 @@ export default function LoginPage() {
 
   return (
     <main className="px-4 md:px-10 py-10 max-w-3xl mx-auto text-center">
-      <div className="rounded-3xl border border-gray-800 bg-gray-900/80 p-10">
-        <h1 className="text-3xl font-bold text-gray-50 mb-4">
+      <div className="rounded-3xl border border-border-default bg-bg-surface p-10">
+        <h1 className="text-3xl font-bold text-text-primary mb-4">
           Sign in to Knotic
         </h1>
-        <p className="text-gray-400 mb-8">
+        <p className="text-text-secondary mb-8">
           Sign in with Google to publish articles and manage your dashboard.
         </p>
 
         {status === "loading" ? (
-          <p className="text-gray-400">Checking your session...</p>
+          <p className="text-text-secondary">Checking your session...</p>
         ) : session?.user ? (
           <div className="space-y-4">
-            <p className="text-gray-100">
+            <p className="text-text-primary">
               Signed in as {session.user.name ?? session.user.email}
             </p>
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="rounded-full bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-500"
+              className="rounded-full bg-danger px-6 py-3 text-sm font-semibold text-white hover:bg-danger-hover"
             >
               Sign out
             </button>
@@ -43,7 +44,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => signIn("google")}
-            className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-400"
+            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white hover:bg-primary-hover"
           >
             Continue with Google
           </button>

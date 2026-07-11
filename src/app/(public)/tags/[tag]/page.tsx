@@ -1,3 +1,4 @@
+// app/(public)/tags/[tag]/page.tsx
 import { getArticlesByTag } from "@/lib/articles";
 import { ArticleCard } from "@/components/article/ArticleCard";
 import { buildMetadata } from "@/lib/metadata";
@@ -17,37 +18,37 @@ export default async function TagPage({ params }: Props) {
         <div className="flex items-center gap-2 mb-2">
           <Link
             href="/articles"
-            className="text-sm text-gray-400 hover:text-gray-300"
+            className="text-sm text-text-secondary hover:text-text-primary"
           >
             Articles
           </Link>
-          <span className="text-sm text-gray-600">/</span>
-          <span className="text-sm text-gray-400">Tag</span>
+          <span className="text-sm text-text-muted">/</span>
+          <span className="text-sm text-text-secondary">Tag</span>
         </div>
         <h1
           id="tag-heading"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-gray-50"
+          className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary"
         >
           Articles tagged &ldquo;{decodedTag}&rdquo;
         </h1>
-        <p className="mt-2 text-gray-400">
+        <p className="mt-2 text-text-secondary">
           {articles.length} article{articles.length !== 1 ? "s" : ""} found
         </p>
       </header>
 
       <section aria-label="Article list" className="max-w-5xl mx-auto">
         {articles.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-gray-800 bg-gray-900/40 p-8 text-center">
-            <h2 className="text-lg font-semibold text-gray-100">
+          <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-8 text-center">
+            <h2 className="text-lg font-semibold text-text-primary">
               No articles found
             </h2>
-            <p className="mt-2 text-sm text-gray-400">
+            <p className="mt-2 text-sm text-text-secondary">
               No articles have been tagged with &ldquo;{decodedTag}&rdquo; yet.
             </p>
             <div className="mt-6">
               <Link
                 href="/articles"
-                className="inline-flex items-center justify-center rounded-full bg-blue-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+                className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
               >
                 View all articles
               </Link>

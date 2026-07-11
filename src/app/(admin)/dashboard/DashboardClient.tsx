@@ -89,24 +89,24 @@ export default function DashboardClient({
   return (
     <main className="px-4 md:px-10 py-10 max-w-6xl mx-auto">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-50">Dashboard</h1>
-        <p className="mt-2 text-gray-400">
+        <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
+        <p className="mt-2 text-text-secondary">
           Manage your articles, create, edit, and delete posts you created.
         </p>
       </header>
 
       {notification && (
-        <div className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/10 px-4 py-3 text-sm text-blue-100">
+        <div className="mb-6 rounded-xl border border-primary bg-primary-muted px-4 py-3 text-sm text-text-primary">
           {notification}
         </div>
       )}
 
       {articles.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-gray-800 bg-gray-900/40 p-10 text-center">
-          <h2 className="text-xl font-semibold text-gray-100">
+        <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-10 text-center">
+          <h2 className="text-xl font-semibold text-text-primary">
             No articles yet
           </h2>
-          <p className="mt-2 text-gray-400">
+          <p className="mt-2 text-text-secondary">
             You have not published any articles yet. Use the write page to add
             your first one.
           </p>
@@ -116,21 +116,21 @@ export default function DashboardClient({
           {articles.map((article) => (
             <div
               key={article.slug}
-              className="rounded-2xl border border-gray-800 bg-gray-900/80 p-5"
+              className="rounded-2xl border border-border-default bg-bg-surface p-5"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-semibold text-gray-50">
+                    <h2 className="text-xl font-semibold text-text-primary">
                       {article.title}
                     </h2>
                     {article.status === "draft" && (
-                      <span className="rounded-full bg-gray-700 px-2.5 py-0.5 text-xs font-medium text-gray-300">
+                      <span className="rounded-full bg-bg-elevated px-2.5 py-0.5 text-xs font-medium text-text-secondary">
                         Draft
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">
+                  <p className="text-sm text-text-secondary mt-1">
                     {article.excerpt}
                   </p>
                 </div>
@@ -138,14 +138,14 @@ export default function DashboardClient({
                   <button
                     type="button"
                     onClick={() => router.push(`/articles/${article.slug}`)}
-                    className="rounded-full border border-gray-700 bg-gray-950 px-4 py-2 text-sm text-white hover:border-gray-500"
+                    className="rounded-full border border-border-default bg-bg-surface px-4 py-2 text-sm text-text-primary hover:border-border-strong"
                   >
                     View
                   </button>
                   <button
                     type="button"
                     onClick={() => router.push(`/edit/${article.slug}`)}
-                    className="rounded-full border border-blue-500/50 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-300 hover:bg-blue-500/20 hover:border-blue-400"
+                    className="rounded-full border border-primary bg-primary-muted px-4 py-2 text-sm font-semibold text-primary hover:bg-primary-muted hover:border-primary"
                   >
                     Edit
                   </button>
@@ -153,7 +153,7 @@ export default function DashboardClient({
                     type="button"
                     onClick={() => handleToggleStatus(article)}
                     disabled={statusLoadingSlug === article.slug}
-                    className="rounded-full border border-gray-600 bg-gray-800 px-4 py-2 text-sm font-semibold text-gray-200 hover:bg-gray-700 hover:border-gray-500 disabled:opacity-50"
+                    className="rounded-full border border-border-strong bg-bg-elevated px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-surface hover:border-border-strong disabled:opacity-50"
                   >
                     {statusLoadingSlug === article.slug
                       ? "Saving..."
@@ -165,7 +165,7 @@ export default function DashboardClient({
                     type="button"
                     onClick={() => handleDelete(article.slug)}
                     disabled={deleteLoadingSlug === article.slug}
-                    className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 disabled:opacity-50"
+                    className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white hover:bg-danger-hover disabled:opacity-50"
                   >
                     {deleteLoadingSlug === article.slug
                       ? "Deleting..."

@@ -33,7 +33,7 @@ const ArticlePage = async ({ params }: Props) => {
     <main className="px-4 md:px-6 lg:px-0" aria-labelledby="article-title">
       <article className="max-w-4xl mx-auto py-12 space-y-12">
         {/* Cover Image */}
-        <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/40">
+        <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden rounded-2xl border border-border-default bg-bg-surface">
           <Image
             src={article.coverImage}
             alt={`Cover image for ${article.title}`}
@@ -46,8 +46,8 @@ const ArticlePage = async ({ params }: Props) => {
         {/* Article Header */}
         <header className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-              <span className="font-medium text-gray-200">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-text-secondary">
+              <span className="font-medium text-text-primary">
                 {article.author}
               </span>
               <span aria-hidden="true" className="hidden sm:inline">
@@ -68,12 +68,12 @@ const ArticlePage = async ({ params }: Props) => {
 
           <h1
             id="article-title"
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-50 leading-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary leading-tight"
           >
             {article.title}
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed">
+          <p className="text-lg md:text-xl text-text-secondary max-w-3xl leading-relaxed">
             {article.excerpt}
           </p>
 
@@ -84,7 +84,7 @@ const ArticlePage = async ({ params }: Props) => {
                   <li key={tag}>
                     <Link
                       href={`/tags/${encodeURIComponent(tag)}`}
-                      className="inline-flex items-center rounded-full bg-gray-800 px-4 py-2 text-sm font-medium text-gray-100 hover:bg-gray-700 transition-colors"
+                      className="inline-flex items-center rounded-full bg-bg-elevated px-4 py-2 text-sm font-medium text-text-primary hover:bg-bg-surface transition-colors"
                     >
                       {tag}
                     </Link>
@@ -106,7 +106,7 @@ const ArticlePage = async ({ params }: Props) => {
         {/* Article Content */}
         <section
           aria-label="Article content"
-          className="prose prose-invert prose-lg max-w-none prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700"
+          className="prose prose-invert prose-lg max-w-none prose-pre:bg-bg-surface prose-pre:border prose-pre:border-border-default"
         >
           <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
         </section>
