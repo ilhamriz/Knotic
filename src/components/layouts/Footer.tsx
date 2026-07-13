@@ -11,7 +11,7 @@ const Footer = () => {
             href="https://ilhamriz.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text-secondary hover:text-text-primary transition-colors underline-offset-4 hover:underline"
+            className="text-text-secondary font-medium hover:text-text-primary transition-colors underline-offset-4 hover:underline"
           >
             Ilhamriz
           </a>
