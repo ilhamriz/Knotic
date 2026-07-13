@@ -6,7 +6,7 @@ import Footer from "@/components/layouts/Footer";
 import Providers from "@/components/providers/providers";
 
 export const metadata: Metadata = {
-  // metadataBase: new URL("https://knotic.vercel.app"),
+  metadataBase: new URL("https://knotic.vercel.app"),
   title: {
     default: "Knotic",
     template: "%s | Knotic",
