@@ -70,7 +70,7 @@ export default function ArticleSummarizer({
         <button
           onClick={handleSummarize}
           disabled={state === "loading"}
-          className="inline-flex items-center gap-2 rounded-lg bg-bg-elevated border border-border-default px-4 py-2 text-sm font-medium text-text-primary hover:bg-bg-elevated hover:border-border-strong disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-bg-elevated border border-border-default px-4 py-2 text-sm font-medium text-text-primary hover:bg-border-default hover:border-border-strong disabled:opacity-60 disabled:cursor-not-allowed transition-colors cursor-pointer"
           aria-label="Summarize article with AI"
         >
           <SparkleIcon className="w-4 h-4 text-primary shrink-0" />

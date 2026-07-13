@@ -40,7 +40,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
               <li key={tag}>
                 <Link
                   href={`/tags/${encodeURIComponent(tag)}`}
-                  className="inline-flex items-center rounded-full bg-bg-elevated px-2.5 py-0.5 text-[11px] font-medium text-text-primary hover:bg-bg-surface transition-colors"
+                  className="inline-flex items-center rounded-full bg-bg-elevated px-2.5 py-0.5 text-[11px] font-medium text-text-primary hover:bg-border-default transition-colors"
                 >
                   {tag}
                 </Link>
