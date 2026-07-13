@@ -13,17 +13,21 @@ import {
 } from "../shared/icons";
 import Buttons from "../shared/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const [isOpen, setIsOpen] = useState(false);
 
-  const initial = session?.user?.name
-    ? session.user.name[0].toUpperCase()
-    : session?.user?.email
-      ? session.user.email[0].toUpperCase()
-      : null;
+  const userImage = session?.user?.image ?? null;
+  const userName = session?.user?.name ?? null;
+  const userEmail = session?.user?.email ?? null;
+  const initial = userName
+    ? userName[0].toUpperCase()
+    : userEmail
+      ? userEmail[0].toUpperCase()
+      : "?";
 
   const closeDrawer = () => setIsOpen(false);
   const drawerItemClass =
@@ -31,13 +35,10 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-20 h-16 px-6 md:px-10 flex items-center justify-between border-b border-border-subtle bg-bg-elevated backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 z-20 h-16 px-6 md:px-10 flex items-center justify-between border-b border-border-subtle bg-bg-base/80 backdrop-blur-md">
         {/* Left side */}
         <div className="flex items-center">
-          <Link
-            href="/"
-            className="text-lg font-semibold text-text-primary hover:text-primary transition-colors"
-          >
+          <Link href="/" className="text-lg font-semibold text-text-primary">
             Knotic
           </Link>
           {/* Desktop: divider + Articles */}
@@ -45,6 +46,7 @@ const Navbar = () => {
             <span className="w-px h-4 bg-border-strong mx-4" />
             <Link
               href="/articles"
+              onClick={closeDrawer}
               className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
             >
               Articles
@@ -53,10 +55,11 @@ const Navbar = () => {
         </div>
 
         {/* Right side — desktop */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-6">
           <Link
             href="/search"
             aria-label="Search"
+            onClick={closeDrawer}
             className="group flex items-center justify-center gap-2 rounded-md text-text-secondary hover:text-text-primary transition-colors"
           >
             <SearchIcon
@@ -66,26 +69,39 @@ const Navbar = () => {
             Search
           </Link>
 
-          {status === "loading" ? null : isAuthenticated ? (
-            <>
-              <Buttons href="/write">
-                <PencilIcon size="16" className="shrink-0" />
-                Write
+          {status !== "loading" &&
+            (isAuthenticated ? (
+              <>
+                <Buttons href="/write" onClick={closeDrawer}>
+                  <PencilIcon size="16" className="shrink-0" />
+                  Write
+                </Buttons>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen((prev) => !prev)}
+                  aria-label="Sign out"
+                  className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center cursor-pointer shrink-0"
+                >
+                  {userImage ? (
+                    <Image
+                      src={userImage}
+                      alt={userName ?? "User avatar"}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover"
+                    />
+                  ) : (
+                    <span className="w-8 h-8 rounded-full bg-primary-muted border border-primary flex items-center justify-center text-xs font-semibold text-primary">
+                      {initial}
+                    </span>
+                  )}
+                </button>
+              </>
+            ) : (
+              <Buttons intent="secondary" onClick={() => signIn()}>
+                Sign in
               </Buttons>
-              <span className="w-px h-4 bg-border-strong mx-1" />
-              <button
-                type="button"
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="w-8 h-8 rounded-full bg-primary-muted border border-primary flex items-center justify-center text-xs font-semibold text-primary cursor-pointer"
-              >
-                {initial}
-              </button>
-            </>
-          ) : (
-            <Buttons intent="secondary" onClick={() => signIn()}>
-              Sign in
-            </Buttons>
-          )}
+            ))}
         </div>
 
         {/* Right side — mobile */}
@@ -93,9 +109,10 @@ const Navbar = () => {
           <Link
             href="/search"
             aria-label="Search"
+            onClick={closeDrawer}
             className="w-8 h-8 flex items-center justify-center rounded-md text-text-secondary hover:text-text-primary transition-colors"
           >
-            <SearchIcon className="fill-text-secondary" />
+            <SearchIcon size="20" className="fill-text-secondary" />
           </Link>
           <button
             type="button"
@@ -104,108 +121,118 @@ const Navbar = () => {
             className="w-8 h-8 flex items-center justify-center rounded-md text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
           >
             {isOpen ? (
-              <CloseIcon className="fill-text-secondary" />
+              <CloseIcon size="20" className="fill-text-secondary" />
             ) : (
-              <HamburgerIcon className="fill-text-secondary" />
+              <HamburgerIcon size="20" className="fill-text-secondary" />
             )}
           </button>
         </div>
       </nav>
 
       {/* Mobile drawer */}
-      {isOpen && (
-        <div className="fixed top-16 right-0 z-10 w-full max-w-[250px] bg-bg-elevated border-l border-border-default rounded-bl-lg">
-          <nav aria-label="Mobile navigation" className="py-4">
-            <Link
-              href="/articles"
-              onClick={closeDrawer}
-              className={cn(drawerItemClass, "md:hidden")}
+      <div
+        onClick={closeDrawer}
+        aria-hidden="true"
+        className={cn(
+          "fixed top-16 right-0 bottom-0 md:bottom-auto z-30 w-full max-w-[280px] bg-bg-surface border-l md:border-b border-border-default md:rounded-bl-lg flex flex-col transition-transform duration-250 ease-out",
+          isOpen ? "translate-x-0" : "translate-x-full pointer-events-none",
+        )}
+      >
+        {/* User info (authenticated) */}
+        {isAuthenticated && (
+          <div className="px-6 py-5 border-b border-border-subtle">
+            <p className="text-sm font-semibold text-text-primary truncate">
+              {userName ?? "—"}
+            </p>
+            <p className="text-xs text-text-secondary truncate mt-0.5">
+              {userEmail ?? ""}
+            </p>
+          </div>
+        )}
+
+        <nav aria-label="Mobile navigation" className="flex-1 py-3">
+          <Link
+            href="/articles"
+            onClick={closeDrawer}
+            className={cn(drawerItemClass, "md:hidden")}
+          >
+            <ArticleIcon
+              size="18"
+              className="fill-text-secondary group-hover:fill-text-primary"
+            />
+            Articles
+          </Link>
+
+          {status !== "loading" && isAuthenticated && (
+            <>
+              <Link
+                href="/write"
+                onClick={closeDrawer}
+                className={cn(drawerItemClass, "md:hidden")}
+              >
+                <PencilIcon
+                  size="18"
+                  className="fill-text-secondary group-hover:fill-text-primary"
+                />
+                Write
+              </Link>
+
+              <Divider className="md:hidden" />
+
+              <Link
+                href="/dashboard"
+                onClick={closeDrawer}
+                className={drawerItemClass}
+              >
+                <DashboardIcon
+                  size="18"
+                  className="fill-text-secondary group-hover:fill-text-primary"
+                />
+                Dashboard
+              </Link>
+            </>
+          )}
+        </nav>
+
+        {/* Bottom action */}
+        <div className="px-5 py-5 border-t border-border-subtle">
+          {isAuthenticated ? (
+            <button
+              type="button"
+              onClick={() => {
+                closeDrawer();
+                signOut();
+              }}
+              className={cn(
+                drawerItemClass,
+                "w-full px-1 py-2 text-text-muted hover:text-text-secondary cursor-pointer",
+              )}
             >
-              <ArticleIcon
+              <SignOutIcon
                 size="18"
-                className="fill-text-secondary group-hover:fill-text-primary"
+                className="fill-text-muted group-hover:fill-text-secondary"
               />
-              Articles
-            </Link>
-
-            {status !== "loading" && (
-              <>
-                {isAuthenticated ? (
-                  <>
-                    <Link
-                      href="/write"
-                      onClick={closeDrawer}
-                      className={cn(drawerItemClass, "md:hidden")}
-                    >
-                      <PencilIcon
-                        size="18"
-                        className="fill-text-secondary group-hover:fill-text-primary"
-                      />
-                      Write
-                    </Link>
-
-                    <Divider className="md:hidden" />
-
-                    <Link
-                      href="/dashboard"
-                      onClick={closeDrawer}
-                      className={drawerItemClass}
-                    >
-                      <DashboardIcon
-                        size="18"
-                        className="fill-text-secondary group-hover:fill-text-primary"
-                      />
-                      Dashboard
-                    </Link>
-
-                    <Divider />
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        closeDrawer();
-                        signOut();
-                      }}
-                      className={cn(
-                        drawerItemClass,
-                        "w-full text-text-muted hover:text-text-secondary cursor-pointer",
-                      )}
-                    >
-                      <SignOutIcon
-                        size="18"
-                        className="fill-text-muted group-hover:fill-text-secondary"
-                      />
-                      Sign out
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Divider />
-                    <div className="px-6 py-2">
-                      <Buttons
-                        intent="secondary"
-                        onClick={() => {
-                          closeDrawer();
-                          signIn();
-                        }}
-                        className="w-full"
-                      >
-                        Sign in
-                      </Buttons>
-                    </div>
-                  </>
-                )}
-              </>
-            )}
-          </nav>
+              Sign out
+            </button>
+          ) : (
+            <Buttons
+              onClick={() => {
+                closeDrawer();
+                signIn("google");
+              }}
+              className="w-full"
+            >
+              Sign in with Google
+            </Buttons>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
 
 const Divider = ({ className }: { className?: string }) => (
-  <div className={cn("border-t border-border-default mx-6 my-3", className)} />
+  <div className={cn("border-t border-border-subtle my-3", className)} />
 );
 
 export default Navbar;
