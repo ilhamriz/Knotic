@@ -12,6 +12,8 @@
     "@auth/prisma-adapter": "^2.11.2",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.7.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^17.4.1",
     "gray-matter": "^4.0.3",
     "next": "16.1.1",
@@ -22,7 +24,8 @@
     "rehype-highlight": "^7.0.2",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
-    "remark-rehype": "^11.1.2"
+    "remark-rehype": "^11.1.2",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
