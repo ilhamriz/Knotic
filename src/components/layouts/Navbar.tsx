@@ -15,6 +15,19 @@ import Buttons from "../shared/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
+const menuList = [
+  {
+    id: 1,
+    label: "Articles",
+    link: "/articles",
+  },
+  {
+    id: 2,
+    label: "About",
+    link: "/about",
+  },
+];
+
 const Navbar = () => {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -42,15 +55,18 @@ const Navbar = () => {
             Knotic
           </Link>
           {/* Desktop: divider + Articles */}
-          <div className="hidden md:flex items-center font-medium">
-            <span className="w-px h-4 bg-border-strong mx-4" />
-            <Link
-              href="/articles"
-              onClick={closeDrawer}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
-            >
-              Articles
-            </Link>
+          <div className="ml-4 hidden md:flex items-center font-medium gap-4">
+            <span className="w-px h-4 bg-border-strong" />
+            {menuList?.map((item) => (
+              <Link
+                key={item?.id}
+                href={item?.link}
+                onClick={closeDrawer}
+                className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+              >
+                {item?.label}
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -151,17 +167,20 @@ const Navbar = () => {
         )}
 
         <nav aria-label="Mobile navigation" className="flex-1 py-3">
-          <Link
-            href="/articles"
-            onClick={closeDrawer}
-            className={cn(drawerItemClass, "md:hidden")}
-          >
-            <ArticleIcon
-              size="18"
-              className="fill-text-secondary group-hover:fill-text-primary"
-            />
-            Articles
-          </Link>
+          {menuList?.map((item) => (
+            <Link
+              key={item?.id}
+              href={item?.link}
+              onClick={closeDrawer}
+              className={cn(drawerItemClass, "md:hidden")}
+            >
+              {/* <ArticleIcon
+                size="18"
+                className="fill-text-secondary group-hover:fill-text-primary"
+              /> */}
+              {item?.label}
+            </Link>
+          ))}
 
           {status !== "loading" && isAuthenticated && (
             <>
