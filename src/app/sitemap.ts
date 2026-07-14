@@ -1,4 +1,5 @@
 import { getAllArticles } from "@/lib/articles";
+import { siteUrl } from "@/lib/metadata";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -8,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const articles = await getAllArticles();
     articleRoutes.push(
       ...articles.map((article) => ({
-        url: `https://knotic.vercel.app/articles/${article.slug}`,
+        url: `${siteUrl}/articles/${article.slug}`,
         lastModified: article.publishedAt,
       })),
     );
@@ -21,11 +22,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://knotic.vercel.app",
+      url: siteUrl,
       lastModified: new Date(),
     },
     {
-      url: "https://knotic.vercel.app/articles",
+      url: `${siteUrl}/articles`,
       lastModified: new Date(),
     },
     ...articleRoutes,

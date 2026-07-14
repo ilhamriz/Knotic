@@ -4,9 +4,10 @@ import Navbar from "@/components/layouts/Navbar";
 import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 import Footer from "@/components/layouts/Footer";
 import Providers from "@/components/providers/providers";
+import { siteUrl } from "@/lib/metadata";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://knotic.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Knotic",
     template: "%s | Knotic",
