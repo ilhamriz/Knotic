@@ -84,7 +84,7 @@ const ArticlePage = async ({ params }: Props) => {
                   <li key={tag}>
                     <Link
                       href={`/tags/${encodeURIComponent(tag)}`}
-                      className="inline-flex items-center rounded-full bg-bg-elevated px-4 py-2 text-sm font-medium text-text-primary hover:bg-bg-surface transition-colors"
+                      className="inline-flex items-center rounded-full bg-bg-elevated px-4 py-2 text-sm font-medium text-text-primary hover:bg-border-default transition-colors"
                     >
                       {tag}
                     </Link>

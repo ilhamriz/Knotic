@@ -166,7 +166,7 @@ export default async function Home() {
 
       {/* CTA */}
       <section aria-labelledby="cta-heading" className="max-w-5xl mx-auto">
-        <div className="rounded-2xl border border-primary bg-linear-to-r from-blue-600/30 via-purple-600/30 to-blue-500/30 px-6 py-8 md:px-8 md:py-10">
+        <div className="rounded-2xl border border-primary bg-linear-to-r from-primary/30 via-primary-muted/30 to-primary/30 px-6 py-8 md:px-8 md:py-10">
           <h2
             id="cta-heading"
             className="text-2xl md:text-3xl font-semibold text-text-primary"
@@ -181,7 +181,7 @@ export default async function Home() {
           <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
             <Link
               href="/articles"
-              className="inline-flex items-center justify-center rounded-full bg-bg-surface px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+              className="inline-flex items-center justify-center rounded-full bg-bg-surface px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
             >
               Read the latest articles
             </Link>

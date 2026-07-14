@@ -125,18 +125,18 @@ export default function AiAssistant({
         }`}
         aria-hidden={!isOpen}
       >
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-bg-surface border border-border-default rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border-default">
             <div className="flex items-center gap-2">
-              <SparkleIcon className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-semibold text-gray-100">
+              <SparkleIcon className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-text-primary">
                 AI Assistant
               </span>
             </div>
             <button
               onClick={handleToggle}
-              className="text-gray-400 hover:text-gray-200 transition-colors"
+              className="text-text-secondary hover:text-text-primary transition-colors"
               aria-label="Close AI Assistant"
             >
               <XIcon className="w-4 h-4" />
@@ -178,7 +178,7 @@ export default function AiAssistant({
       {/* Floating trigger button */}
       <button
         onClick={handleToggle}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-400 text-white shadow-lg flex items-center justify-center transition-colors"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white shadow-lg flex items-center justify-center transition-colors"
         aria-label="Toggle AI Assistant"
       >
         {isOpen ? (
@@ -205,12 +205,12 @@ function ActionsStep({ onSelect }: { onSelect: (a: Action) => void }) {
         <button
           key={action}
           onClick={() => onSelect(action)}
-          className="w-full text-left rounded-xl border border-gray-800 bg-gray-950 p-4 hover:border-blue-500/50 transition-colors"
+          className="w-full text-left rounded-xl border border-border-default bg-bg-base p-4 hover:border-primary/50 transition-colors"
         >
-          <p className="text-sm font-medium text-gray-100">
+          <p className="text-sm font-medium text-text-primary">
             {ACTION_LABELS[action]}
           </p>
-          <p className="text-xs text-gray-400 mt-0.5">
+          <p className="text-xs text-text-secondary mt-0.5">
             {ACTION_SUBTEXTS[action]}
           </p>
         </button>
@@ -241,12 +241,12 @@ function InputStep({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-gray-100">
+        <p className="text-sm font-semibold text-text-primary">
           {ACTION_LABELS[action]}
         </p>
         <button
           onClick={onBack}
-          className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+          className="text-xs text-text-secondary hover:text-text-primary transition-colors"
         >
           ← Back
         </button>
@@ -257,15 +257,15 @@ function InputStep({
         onChange={(e) => onInstructionChange(e.target.value)}
         placeholder={INSTRUCTION_PLACEHOLDERS[action]}
         rows={3}
-        className="w-full rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white placeholder-gray-500 resize-y focus:outline-none focus:border-blue-500/60"
+        className="w-full rounded-lg border border-border-default bg-bg-base px-3 py-2 text-sm text-white placeholder-text-muted resize-y focus:outline-none focus:border-primary/60"
       />
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-danger">{error}</p>}
 
       <button
         onClick={onGenerate}
         disabled={isLoading}
-        className="w-full rounded-lg bg-blue-500 hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 text-sm font-semibold text-white transition-colors flex items-center justify-center gap-2"
+        className="w-full rounded-lg bg-primary hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 text-sm font-semibold text-white transition-colors flex items-center justify-center gap-2"
       >
         {isLoading ? (
           <>
@@ -300,12 +300,12 @@ function ResultStep({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-gray-100">
+        <p className="text-sm font-semibold text-text-primary">
           {ACTION_LABELS[action]}
         </p>
         <button
           onClick={onBack}
-          className="text-xs text-gray-400 hover:text-gray-200 transition-colors"
+          className="text-xs text-text-secondary hover:text-text-primary transition-colors"
         >
           ← Back
         </button>
@@ -318,7 +318,7 @@ function ResultStep({
               <button
                 key={i}
                 onClick={() => onApplyTitle(title)}
-                className="w-full text-left rounded-xl border border-gray-800 bg-gray-950 p-3 text-sm text-gray-100 hover:border-blue-500/50 transition-colors"
+                className="w-full text-left rounded-xl border border-border-default bg-bg-base p-3 text-sm text-text-primary hover:border-primary/50 transition-colors"
               >
                 {title}
               </button>
@@ -326,26 +326,26 @@ function ResultStep({
           </div>
           <button
             onClick={onDismiss}
-            className="w-full rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:border-gray-500 hover:text-white transition-colors"
+            className="w-full rounded-lg border border-border-default px-4 py-2 text-sm text-text-secondary hover:border-border-strong hover:text-white transition-colors"
           >
             Dismiss
           </button>
         </>
       ) : (
         <>
-          <div className="max-h-48 overflow-y-auto rounded-xl bg-gray-950 p-3 text-sm text-gray-200 leading-relaxed">
+          <div className="max-h-48 overflow-y-auto rounded-xl bg-bg-base p-3 text-sm text-text-primary leading-relaxed">
             {result as string}
           </div>
           <div className="flex gap-2">
             <button
               onClick={onApply}
-              className="flex-1 rounded-lg bg-blue-500 hover:bg-blue-400 px-4 py-2 text-sm font-semibold text-white transition-colors"
+              className="flex-1 rounded-lg bg-primary hover:bg-primary-hover px-4 py-2 text-sm font-semibold text-white transition-colors"
             >
               Apply
             </button>
             <button
               onClick={onDismiss}
-              className="flex-1 rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:border-gray-500 hover:text-white transition-colors"
+              className="flex-1 rounded-lg border border-border-default px-4 py-2 text-sm text-text-secondary hover:border-border-strong hover:text-white transition-colors"
             >
               Dismiss
             </button>
