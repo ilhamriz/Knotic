@@ -18,7 +18,7 @@ export default async function ArticlesPage() {
 
   return (
     <main className="px-4 md:px-10 py-10" aria-labelledby="articles-heading">
-      <header className="max-w-5xl mx-auto mb-8">
+      <header className="page-container mb-8">
         <h1
           id="articles-heading"
           className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary"
@@ -30,7 +30,7 @@ export default async function ArticlesPage() {
         </p>
       </header>
 
-      <section aria-label="Article list" className="max-w-5xl mx-auto">
+      <section aria-label="Article list" className="page-container">
         {listArticles.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-8 text-center">
             <h2 className="text-lg font-semibold text-text-primary">

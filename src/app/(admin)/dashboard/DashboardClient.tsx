@@ -87,7 +87,7 @@ export default function DashboardClient({
   };
 
   return (
-    <main className="px-4 md:px-10 py-10 max-w-6xl mx-auto">
+    <main className="page-container py-10">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
         <p className="mt-2 text-text-secondary">

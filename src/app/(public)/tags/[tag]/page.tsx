@@ -14,7 +14,7 @@ export default async function TagPage({ params }: Props) {
 
   return (
     <main className="px-4 md:px-10 py-10" aria-labelledby="tag-heading">
-      <header className="max-w-5xl mx-auto mb-8">
+      <header className="page-container mb-8">
         <div className="flex items-center gap-2 mb-2">
           <Link
             href="/articles"
@@ -36,7 +36,7 @@ export default async function TagPage({ params }: Props) {
         </p>
       </header>
 
-      <section aria-label="Article list" className="max-w-5xl mx-auto">
+      <section aria-label="Article list" className="page-container">
         {articles.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-8 text-center">
             <h2 className="text-lg font-semibold text-text-primary">

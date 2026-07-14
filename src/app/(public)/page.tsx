@@ -21,7 +21,7 @@ export default async function Home() {
       {/* Hero */}
       <section
         aria-labelledby="hero-heading"
-        className="max-w-5xl mx-auto text-center md:text-left"
+        className="page-container text-center md:text-left"
       >
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
           Knowledge, structured for thinking
@@ -50,18 +50,6 @@ export default async function Home() {
           >
             Search articles
           </Link>
-          <Link
-            href="/write"
-            className="inline-flex items-center justify-center rounded-full border border-primary bg-primary-muted px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-          >
-            Write a new article
-          </Link>
-          <Link
-            href="#features"
-            className="inline-flex items-center justify-center rounded-full border border-border-default px-6 py-2.5 text-sm font-semibold text-text-primary hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-          >
-            See how Knotic works
-          </Link>
         </div>
       </section>
 
@@ -69,7 +57,7 @@ export default async function Home() {
       <section
         id="features"
         aria-labelledby="features-heading"
-        className="max-w-5xl mx-auto"
+        className="page-container"
       >
         <header className="mb-6 text-center md:text-left">
           <h2
@@ -103,10 +91,15 @@ export default async function Home() {
               support—while you stay fully in control of the final output.
             </p>
           </div>
-          <div className="rounded-xl border border-border-default bg-bg-surface p-5">
-            <h3 className="text-lg font-semibold text-text-primary">
-              Real-time collaboration (future)
-            </h3>
+          <div className="rounded-xl border border-dashed border-border-default bg-bg-surface/50 p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-lg font-semibold text-text-primary">
+                Real-time collaboration
+              </h3>
+              <span className="text-xs bg-bg-elevated text-text-muted rounded-full px-2 py-0.5">
+                Planned
+              </span>
+            </div>
             <p className="mt-2 text-sm text-text-secondary">
               See updates as they happen, review changes together, and co-create
               articles without losing context—planned for future iterations of
@@ -129,7 +122,7 @@ export default async function Home() {
       {/* Articles Preview */}
       <section
         aria-labelledby="articles-preview-heading"
-        className="max-w-5xl mx-auto"
+        className="page-container"
       >
         <header className="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
           <div>
@@ -165,7 +158,7 @@ export default async function Home() {
       </section>
 
       {/* CTA */}
-      <section aria-labelledby="cta-heading" className="max-w-5xl mx-auto">
+      <section aria-labelledby="cta-heading" className="page-container">
         <div className="rounded-2xl border border-primary bg-linear-to-r from-primary/30 via-primary-muted/30 to-primary/30 px-6 py-8 md:px-8 md:py-10">
           <h2
             id="cta-heading"
@@ -180,16 +173,10 @@ export default async function Home() {
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
             <Link
-              href="/articles"
+              href="/about"
               className="inline-flex items-center justify-center rounded-full bg-bg-surface px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
             >
-              Read the latest articles
-            </Link>
-            <Link
-              href="#features"
-              className="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-2.5 text-sm font-semibold text-white/90 hover:border-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-            >
-              Learn about the product vision
+              Learn more about Knotic
             </Link>
           </div>
         </div>

@@ -67,7 +67,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
 
   return (
     <main className="px-4 md:px-10 py-10" aria-labelledby="search-heading">
-      <header className="max-w-5xl mx-auto mb-8">
+      <header className="page-container mb-8">
         <h1
           id="search-heading"
           className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6"
@@ -97,7 +97,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
         )}
       </header>
 
-      <section aria-label="Search results" className="max-w-5xl mx-auto">
+      <section aria-label="Search results" className="page-container">
         {renderContent()}
       </section>
     </main>
