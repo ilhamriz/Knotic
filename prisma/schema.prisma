@@ -65,7 +65,7 @@ model Article {
   slug        String   @unique
   publishedAt DateTime @default(now())
   readingTime Int
-  status      String   @default("draft")
   authorId    String
+  status      String   @default("draft")
   author      User     @relation(fields: [authorId], references: [id])
 }
