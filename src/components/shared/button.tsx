@@ -23,14 +23,14 @@ export const buttonTemplate = cva("button", {
       primary:
         "bg-primary-muted hover:bg-primary border border-primary text-text-primary",
       secondary:
-        "bg-bg-base border border-border-default text-text-primary hover:bg-bg-surface hover:border-border-strong",
+        "bg-bg-elevated border border-border-default text-text-primary hover:bg-border-default hover:border-border-strong",
       outline: "border border-border-default",
       tertiary: "",
       disabled: "text-text-muted",
     },
     size: {
       medium:
-        "min-w-25 h-10 md:h-9 text-sm font-medium px-4 py-1.5 rounded-full transition-colors cursor-pointer flex justify-center items-center gap-2",
+        "min-w-25 w-full h-10 md:h-9 text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-300 cursor-pointer flex justify-center items-center gap-2",
     },
   },
   defaultVariants: {
