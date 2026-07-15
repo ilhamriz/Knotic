@@ -13,8 +13,11 @@ export default async function TagPage({ params }: Props) {
   const articles = await getArticlesByTag(decodedTag);
 
   return (
-    <main className="px-4 md:px-10 py-10" aria-labelledby="tag-heading">
-      <header className="page-container mb-8">
+    <main
+      className="px-4 md:px-10 py-10 editorial"
+      aria-labelledby="tag-heading"
+    >
+      <header className="page-container mb-12 md:mb-16">
         <div className="flex items-center gap-2 mb-2">
           <Link
             href="/articles"
@@ -27,7 +30,7 @@ export default async function TagPage({ params }: Props) {
         </div>
         <h1
           id="tag-heading"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary"
+          className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary"
         >
           Articles tagged &ldquo;{decodedTag}&rdquo;
         </h1>
@@ -55,7 +58,7 @@ export default async function TagPage({ params }: Props) {
             </div>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {articles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}

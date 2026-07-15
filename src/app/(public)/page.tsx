@@ -17,27 +17,36 @@ export default async function Home() {
   }
 
   return (
-    <main className="px-4 md:px-10 lg:px-16 xl:px-24 py-12 space-y-16">
+    <main className="px-4 md:px-10 lg:px-16 xl:px-24 py-12 space-y-28 md:space-y-36 editorial">
       {/* Hero */}
       <section
         aria-labelledby="hero-heading"
-        className="page-container text-center md:text-left"
+        className="page-container relative text-center md:text-left py-20 md:py-32"
       >
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+        {/* Decorative background blob — aria-hidden, does not affect layout */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+        >
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 h-[600px] w-[600px] rounded-full bg-primary/15 blur-[120px] opacity-60" />
+        </div>
+
+        <p className="text-sm md:text-base font-medium uppercase tracking-[0.25em] text-primary">
           Knowledge, structured for thinking
         </p>
         <h1
           id="hero-heading"
-          className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary"
+          className="mt-4 text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-text-primary"
         >
-          Knotic helps you turn scattered notes into clear, connected knowledge.
+          Knotic helps you turn scattered notes into{" "}
+          <span className="text-accent">clear, connected knowledge.</span>
         </h1>
-        <p className="mt-4 text-base md:text-lg text-text-secondary max-w-2xl">
+        <p className="mt-6 text-base md:text-lg text-text-secondary max-w-2xl">
           Capture ideas, structure them with tags, and publish thoughtful
           articles. Built for people who care about how they think, not just
           what they store.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
+        <div className="mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
           <Link
             href="/articles"
             className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
@@ -62,7 +71,7 @@ export default async function Home() {
         <header className="mb-6 text-center md:text-left">
           <h2
             id="features-heading"
-            className="text-2xl md:text-3xl font-semibold text-text-primary"
+            className="text-3xl md:text-4xl font-semibold text-text-primary"
           >
             Built for deep, structured thinking.
           </h2>
@@ -71,8 +80,9 @@ export default async function Home() {
             notes to long-term understanding.
           </p>
         </header>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-border-default bg-bg-surface p-5">
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="rounded-xl border border-border-default bg-bg-surface p-7 md:p-8">
+            <p className="text-sm font-mono text-accent mb-2">01</p>
             <h3 className="text-lg font-semibold text-text-primary">
               Structured knowledge
             </h3>
@@ -82,7 +92,8 @@ export default async function Home() {
               makes sense.
             </p>
           </div>
-          <div className="rounded-xl border border-border-default bg-bg-surface p-5">
+          <div className="rounded-xl border border-border-default bg-bg-surface p-7 md:p-8">
+            <p className="text-sm font-mono text-accent mb-2">02</p>
             <h3 className="text-lg font-semibold text-text-primary">
               AI-assisted writing
             </h3>
@@ -91,12 +102,13 @@ export default async function Home() {
               support—while you stay fully in control of the final output.
             </p>
           </div>
-          <div className="rounded-xl border border-dashed border-border-default bg-bg-surface/50 p-5">
+          <div className="rounded-xl border border-dashed border-border-default bg-bg-surface/50 p-7 md:p-8">
+            <p className="text-sm font-mono text-accent mb-2">03</p>
             <div className="flex items-center gap-2 mb-2">
               <h3 className="text-lg font-semibold text-text-primary">
                 Real-time collaboration
               </h3>
-              <span className="text-xs bg-bg-elevated text-text-muted rounded-full px-2 py-0.5">
+              <span className="text-xs font-medium bg-bg-elevated text-accent border border-accent/30 rounded-full px-2.5 py-0.5">
                 Planned
               </span>
             </div>
@@ -106,7 +118,8 @@ export default async function Home() {
               Knotic.
             </p>
           </div>
-          <div className="rounded-xl border border-border-default bg-bg-surface p-5">
+          <div className="rounded-xl border border-border-default bg-bg-surface p-7 md:p-8">
+            <p className="text-sm font-mono text-accent mb-2">04</p>
             <h3 className="text-lg font-semibold text-text-primary">
               Tag-based organization
             </h3>
@@ -124,7 +137,7 @@ export default async function Home() {
         aria-labelledby="articles-preview-heading"
         className="page-container"
       >
-        <header className="mb-6 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+        <header className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
           <div>
             <h2
               id="articles-preview-heading"
@@ -149,7 +162,7 @@ export default async function Home() {
             No articles have been published yet. Check back soon for new posts.
           </p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {latestArticles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}
@@ -159,10 +172,19 @@ export default async function Home() {
 
       {/* CTA */}
       <section aria-labelledby="cta-heading" className="page-container">
-        <div className="rounded-2xl border border-primary bg-linear-to-r from-primary/30 via-primary-muted/30 to-primary/30 px-6 py-8 md:px-8 md:py-10">
+        <div className="rounded-2xl border border-primary/60 relative overflow-hidden px-8 py-12 md:px-12 md:py-16">
+          {/* Layered gradients: primary base + accent depth layers at both corners */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10"
+          >
+            <div className="absolute inset-0 bg-linear-to-r from-primary/30 via-primary-muted/30 to-primary/30" />
+            <div className="absolute -bottom-12 -right-12 h-80 w-80 rounded-full bg-accent/25 blur-[100px]" />
+            <div className="absolute -top-8 -left-8 h-48 w-48 rounded-full bg-accent/15 blur-[90px]" />
+          </div>
           <h2
             id="cta-heading"
-            className="text-2xl md:text-3xl font-semibold text-text-primary"
+            className="text-3xl md:text-4xl font-semibold text-text-primary"
           >
             Build a thinking space you&apos;re proud of.
           </h2>

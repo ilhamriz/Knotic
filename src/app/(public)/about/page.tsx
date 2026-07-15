@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <main className="page-container py-12 space-y-12">
+    <main className="page-container py-12 space-y-12 editorial">
       {/* Header */}
       <section aria-labelledby="about-heading">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
@@ -66,7 +66,7 @@ export default function AboutPage() {
             href="https://ilhamriz.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:text-primary-hover underline-offset-4 hover:underline transition-colors"
+            className="text-text-primary hover:text-primary-hover font-medium transition-colors"
           >
             Ilhamriz
           </a>

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import {
-  ArticleIcon,
   CloseIcon,
   DashboardIcon,
   HamburgerIcon,
@@ -55,7 +54,7 @@ const Navbar = () => {
             Knotic
           </Link>
           {/* Desktop: divider + Articles */}
-          <div className="ml-4 hidden md:flex items-center font-medium gap-4">
+          <div className="ml-6 hidden md:flex items-center font-medium gap-6">
             <span className="w-px h-4 bg-border-strong" />
             {menuList?.map((item) => (
               <Link

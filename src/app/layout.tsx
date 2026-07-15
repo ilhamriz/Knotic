@@ -5,6 +5,7 @@ import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 import Footer from "@/components/layouts/Footer";
 import Providers from "@/components/providers/providers";
 import { siteUrl } from "@/lib/metadata";
+import { geistSans, geistMono, playfairDisplay } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -22,7 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} font-sans`}
+    >
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>

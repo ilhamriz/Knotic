@@ -17,16 +17,22 @@ export default async function ArticlesPage() {
   }
 
   return (
-    <main className="px-4 md:px-10 py-10" aria-labelledby="articles-heading">
-      <header className="page-container mb-8">
+    <main
+      className="px-4 md:px-10 py-8 md:py-12 editorial"
+      aria-labelledby="articles-heading"
+    >
+      <header className="page-container mb-12 md:mb-16">
         <h1
           id="articles-heading"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary"
+          className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary"
         >
           Knotic Articles
         </h1>
         <p className="mt-2 text-text-secondary">
           Articles on structured thinking, knowledge, and building Knotic.
+        </p>
+        <p className="mt-2 text-sm text-text-secondary">
+          {listArticles.length} article{listArticles.length !== 1 ? "s" : ""}
         </p>
       </header>
 
@@ -50,7 +56,7 @@ export default async function ArticlesPage() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {listArticles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}

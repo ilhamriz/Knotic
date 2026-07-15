@@ -88,8 +88,8 @@ export default function DashboardClient({
 
   return (
     <main className="page-container py-10">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary">Dashboard</h1>
+      <header className="mb-10">
+        <h1 className="text-4xl font-bold text-text-primary">Dashboard</h1>
         <p className="mt-2 text-text-secondary">
           Manage your articles, create, edit, and delete posts you created.
         </p>

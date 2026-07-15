@@ -30,7 +30,10 @@ const ArticlePage = async ({ params }: Props) => {
   const formattedDate = formatArticlePublishedDate(article.publishedAt);
 
   return (
-    <main className="px-4 md:px-6 lg:px-0" aria-labelledby="article-title">
+    <main
+      className="px-4 md:px-6 lg:px-0 editorial"
+      aria-labelledby="article-title"
+    >
       <article className="max-w-4xl mx-auto py-12 space-y-12">
         {/* Cover Image */}
         <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden rounded-2xl border border-border-default bg-bg-surface">

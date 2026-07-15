@@ -57,7 +57,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
 
     // 3. Success State: Display results
     return (
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
         {filteredArticles.map((article) => (
           <ArticleCard key={article.slug} article={article} />
         ))}
@@ -66,11 +66,14 @@ export default function SearchClient({ articles }: SearchClientProps) {
   };
 
   return (
-    <main className="px-4 md:px-10 py-10" aria-labelledby="search-heading">
-      <header className="page-container mb-8">
+    <main
+      className="px-4 md:px-10 py-10 editorial"
+      aria-labelledby="search-heading"
+    >
+      <header className="page-container mb-12 md:mb-16">
         <h1
           id="search-heading"
-          className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary mb-6"
+          className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary mb-6"
         >
           Search Articles
         </h1>
@@ -85,7 +88,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by title, excerpt, or tags..."
-            className="w-full rounded-lg border border-border-default bg-bg-surface px-4 py-3 text-text-primary placeholder-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-lg border border-border-default bg-bg-surface px-5 py-3.5 text-base text-text-primary placeholder-text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
