@@ -56,7 +56,7 @@ export default async function ArticlesPage() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="article-grid">
             {listArticles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}

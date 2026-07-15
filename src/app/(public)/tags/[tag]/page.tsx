@@ -58,7 +58,7 @@ export default async function TagPage({ params }: Props) {
             </div>
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="article-grid">
             {articles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}

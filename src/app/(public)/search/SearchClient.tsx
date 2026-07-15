@@ -57,7 +57,7 @@ export default function SearchClient({ articles }: SearchClientProps) {
 
     // 3. Success State: Display results
     return (
-      <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <div className="article-grid">
         {filteredArticles.map((article) => (
           <ArticleCard key={article.slug} article={article} />
         ))}

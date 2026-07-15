@@ -162,7 +162,7 @@ export default async function Home() {
             No articles have been published yet. Check back soon for new posts.
           </p>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="article-grid">
             {latestArticles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}

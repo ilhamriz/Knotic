@@ -85,6 +85,12 @@ body {
   animation: slideInRight 0.25s ease-out forwards;
 }
 
+.article-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
 /* Prevent browser autofill from forcing a white background on dark inputs */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
