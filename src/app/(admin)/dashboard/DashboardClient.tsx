@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ArticlePreview } from "@/lib/articles";
+import Buttons from "@/components/shared/button";
 
 interface DashboardClientProps {
   articles: ArticlePreview[];
@@ -124,9 +125,13 @@ export default function DashboardClient({
                     <h2 className="text-xl font-semibold text-text-primary">
                       {article.title}
                     </h2>
-                    {article.status === "draft" && (
-                      <span className="rounded-full bg-bg-elevated px-2.5 py-0.5 text-xs font-medium text-text-secondary">
+                    {article.status === "draft" ? (
+                      <span className="rounded-full bg-accent-muted border border-accent/30 px-2.5 py-0.5 text-xs font-medium text-accent">
                         Draft
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-primary-muted border border-primary/30 px-2.5 py-0.5 text-xs font-medium text-primary">
+                        Published
                       </span>
                     )}
                   </div>
@@ -135,20 +140,20 @@ export default function DashboardClient({
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/articles/${article.slug}`)}
-                    className="rounded-full border border-border-default bg-bg-surface px-4 py-2 text-sm text-text-primary hover:border-border-strong"
+                  <Buttons
+                    intent="secondary"
+                    href={`/articles/${article.slug}`}
+                    className="min-w-auto"
                   >
                     View
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/edit/${article.slug}`)}
-                    className="rounded-full border border-primary bg-primary-muted px-4 py-2 text-sm font-semibold text-primary hover:bg-primary-muted hover:border-primary"
+                  </Buttons>
+                  <Buttons
+                    intent="secondary"
+                    href={`/edit/${article.slug}`}
+                    className="min-w-auto"
                   >
                     Edit
-                  </button>
+                  </Buttons>
                   <button
                     type="button"
                     onClick={() => handleToggleStatus(article)}

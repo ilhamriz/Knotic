@@ -23,7 +23,7 @@ export const buttonTemplate = cva("button", {
       primary:
         "bg-primary-muted hover:bg-primary border border-primary text-text-primary",
       secondary:
-        "border border-border-strong text-text-primary hover:bg-bg-surface",
+        "bg-bg-base border border-border-default text-text-primary hover:bg-bg-surface hover:border-border-strong",
       outline: "border border-border-default",
       tertiary: "",
       disabled: "text-text-muted",
