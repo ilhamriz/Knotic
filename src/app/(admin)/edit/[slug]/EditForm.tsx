@@ -3,6 +3,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import type { Article } from "@/lib/articles";
 import AiAssistant from "@/components/ai/AiAssistant";
 import MarkdownPreview from "@/components/editor/MarkdownPreview";
@@ -17,12 +18,10 @@ export default function EditForm({ article }: EditFormProps) {
   const [coverImage, setCoverImage] = useState(article.coverImage);
   const [tags, setTags] = useState(article.tags.join(", "));
   const [content, setContent] = useState(article.content);
-  const [notification, setNotification] = useState<string | null>(null);
   const router = useRouter();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNotification("Saving...");
 
     try {
       const response = await fetch(
@@ -42,23 +41,23 @@ export default function EditForm({ article }: EditFormProps) {
 
       if (!response.ok) {
         const data = await response.json();
-        setNotification(`Error: ${data.error || "Unable to save article"}`);
+        toast.error(data.error || "Unable to save article");
         return;
       }
 
-      setNotification("Article updated successfully 🎉");
+      toast.success("Article updated successfully");
 
       setTimeout(() => {
         router.push(`/articles/${article.slug}`);
       }, 800);
     } catch (error) {
       console.error(error);
-      setNotification("Error: Unable to update article");
+      toast.error("Unable to update article");
     }
   };
 
   return (
-    <main className="page-container py-10">
+    <main className="page-container pt-10 pb-25">
       <h1 className="text-3xl font-bold text-text-primary mb-2">
         Edit article
       </h1>
@@ -165,7 +164,7 @@ export default function EditForm({ article }: EditFormProps) {
         </div>
 
         {/* Submit footer */}
-        <div className="border-t border-border-subtle pt-5 mt-2 flex items-center gap-3">
+        <div className="border-t border-border-subtle pt-5 mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
           <button
             type="submit"
             className="rounded-lg bg-primary px-5 py-2.5 text-white font-semibold hover:bg-primary-hover"
@@ -179,19 +178,6 @@ export default function EditForm({ article }: EditFormProps) {
           >
             Cancel
           </button>
-          {notification && (
-            <p
-              className={`text-sm ${
-                notification.startsWith("Error")
-                  ? "text-danger"
-                  : notification === "Saving..."
-                    ? "text-text-muted"
-                    : "text-green-400"
-              }`}
-            >
-              {notification}
-            </p>
-          )}
         </div>
       </form>
 

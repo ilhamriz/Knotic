@@ -3,6 +3,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import AiAssistant from "@/components/ai/AiAssistant";
 import MarkdownPreview from "@/components/editor/MarkdownPreview";
 
@@ -12,12 +13,10 @@ export default function WriteForm() {
   const [coverImage, setCoverImage] = useState("");
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("");
-  const [notification, setNotification] = useState<string | null>(null);
   const router = useRouter();
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNotification("Saving...");
     try {
       const response = await fetch("/api/articles", {
         method: "POST",
@@ -33,10 +32,10 @@ export default function WriteForm() {
       });
       if (!response.ok) {
         const data = await response.json();
-        setNotification(`Error: ${data.error || "Unable to save article"}`);
+        toast.error(data.error || "Unable to save article");
         return;
       }
-      setNotification(
+      toast.success(
         "Draft saved successfully. Publish it from your dashboard.",
       );
       setTitle("");
@@ -49,12 +48,12 @@ export default function WriteForm() {
       }, 800);
     } catch (error) {
       console.error(error);
-      setNotification("Error: Unable to create article");
+      toast.error("Unable to create article");
     }
   };
 
   return (
-    <main className="page-container py-10">
+    <main className="page-container pt-10 pb-25">
       <h1 className="text-3xl font-bold text-text-primary mb-8">
         Write a new article
       </h1>
@@ -156,16 +155,13 @@ export default function WriteForm() {
         </div>
 
         {/* Submit footer */}
-        <div className="border-t border-border-subtle pt-5 mt-2 flex items-center gap-3">
+        <div className="border-t border-border-subtle pt-5 mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
           <button
             type="submit"
             className="rounded-lg bg-primary px-5 py-2.5 text-white font-semibold hover:bg-primary-hover"
           >
             Submit article
           </button>
-          {notification && (
-            <p className="text-sm text-text-secondary">{notification}</p>
-          )}
         </div>
       </form>
 

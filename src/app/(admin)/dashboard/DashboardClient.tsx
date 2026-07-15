@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import type { ArticlePreview } from "@/lib/articles";
 import Buttons from "@/components/shared/button";
 
@@ -20,13 +20,10 @@ export default function DashboardClient({
   const [statusLoadingSlug, setStatusLoadingSlug] = useState<string | null>(
     null,
   );
-  const [notification, setNotification] = useState<string | null>(null);
-  const router = useRouter();
 
   const handleDelete = async (slug: string) => {
     if (!confirm("Delete this article?")) return;
     setDeleteLoadingSlug(slug);
-    setNotification(null);
 
     try {
       const response = await fetch(
@@ -36,15 +33,15 @@ export default function DashboardClient({
 
       if (!response.ok) {
         const data = await response.json();
-        setNotification(`Error: ${data.error || "Unable to delete article"}`);
+        toast.error(data.error || "Unable to delete article");
         return;
       }
 
       setArticles((prev) => prev.filter((a) => a.slug !== slug));
-      setNotification("Article deleted successfully.");
+      toast.success("Article deleted successfully.");
     } catch (error) {
       console.error(error);
-      setNotification("Error: Unable to delete article");
+      toast.error("Unable to delete article");
     } finally {
       setDeleteLoadingSlug(null);
     }
@@ -53,7 +50,6 @@ export default function DashboardClient({
   const handleToggleStatus = async (article: ArticlePreview) => {
     const newStatus = article.status === "draft" ? "published" : "draft";
     setStatusLoadingSlug(article.slug);
-    setNotification(null);
 
     try {
       const response = await fetch(
@@ -67,7 +63,7 @@ export default function DashboardClient({
 
       if (!response.ok) {
         const data = await response.json();
-        setNotification(`Error: ${data.error || "Unable to update status"}`);
+        toast.error(data.error || "Unable to update status");
         return;
       }
 
@@ -76,12 +72,12 @@ export default function DashboardClient({
           a.slug === article.slug ? { ...a, status: newStatus } : a,
         ),
       );
-      setNotification(
+      toast.success(
         `"${article.title}" is now ${newStatus === "published" ? "published" : "saved as a draft"}.`,
       );
     } catch (error) {
       console.error(error);
-      setNotification("Error: Unable to update article status");
+      toast.error("Unable to update article status");
     } finally {
       setStatusLoadingSlug(null);
     }
@@ -95,12 +91,6 @@ export default function DashboardClient({
           Manage your articles, create, edit, and delete posts you created.
         </p>
       </header>
-
-      {notification && (
-        <div className="mb-6 rounded-xl border border-primary bg-primary-muted px-4 py-3 text-sm text-text-primary">
-          {notification}
-        </div>
-      )}
 
       {articles.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-10 text-center">
@@ -126,11 +116,11 @@ export default function DashboardClient({
                       {article.title}
                     </h2>
                     {article.status === "draft" ? (
-                      <span className="rounded-full bg-accent-muted border border-accent/30 px-2.5 py-0.5 text-xs font-medium text-accent">
+                      <span className="rounded-full bg-bg-elevated border border-accent/30 px-2.5 py-0.5 text-xs font-medium text-accent">
                         Draft
                       </span>
                     ) : (
-                      <span className="rounded-full bg-primary-muted border border-primary/30 px-2.5 py-0.5 text-xs font-medium text-primary">
+                      <span className="rounded-full bg-bg-elevated border border-primary/30 px-2.5 py-0.5 text-xs font-medium text-primary">
                         Published
                       </span>
                     )}
