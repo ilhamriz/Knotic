@@ -17,5 +17,5 @@ export default async function WritePage() {
     redirect("/login");
   }
 
-  return <WriteForm session={session} />;
+  return <WriteForm />;
 }

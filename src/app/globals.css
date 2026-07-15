@@ -84,3 +84,16 @@ body {
 .drawer-animate {
   animation: slideInRight 0.25s ease-out forwards;
 }
+
+/* Prevent browser autofill from forcing a white background on dark inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text-primary);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-bg-surface) inset;
+  box-shadow: 0 0 0px 1000px var(--color-bg-surface) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 type Action = "improve_writing" | "suggest_title" | "generate_excerpt";
 type Step = "actions" | "input" | "result";
@@ -43,6 +44,18 @@ export default function AiAssistant({
   const [result, setResult] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isNearFooter, setIsNearFooter] = useState(false);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsNearFooter(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
 
   function resetState() {
     setStep("actions");
@@ -118,11 +131,15 @@ export default function AiAssistant({
     <>
       {/* Floating panel */}
       <div
-        className={`fixed bottom-20 right-6 z-50 w-80 transition-all duration-200 ${
+        className={cn(
+          "fixed right-6 z-50 w-80 transition-all duration-300",
+          isNearFooter
+            ? "bottom-[calc(100px+80px)] sm:bottom-[calc(70px+80px)]"
+            : "bottom-20",
           isOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 translate-y-2 pointer-events-none"
-        }`}
+            ? "translate-y-0 pointer-events-auto"
+            : "translate-y-2 pointer-events-none opacity-0",
+        )}
         aria-hidden={!isOpen}
       >
         <div className="bg-bg-surface border border-border-default rounded-2xl shadow-2xl overflow-hidden">
@@ -178,7 +195,12 @@ export default function AiAssistant({
       {/* Floating trigger button */}
       <button
         onClick={handleToggle}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white shadow-lg flex items-center justify-center transition-colors"
+        className={cn(
+          "fixed right-6 z-50 w-12 h-12 rounded-full bg-primary hover:bg-primary-hover text-white shadow-lg flex items-center justify-center transition-all duration-500",
+          isNearFooter
+            ? "bottom-[calc(100px+24px)] sm:bottom-[calc(70px+24px)]"
+            : "bottom-6",
+        )}
         aria-label="Toggle AI Assistant"
       >
         {isOpen ? (

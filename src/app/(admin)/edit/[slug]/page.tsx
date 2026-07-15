@@ -22,5 +22,5 @@ export default async function EditPage({ params }: EditPageProps) {
     redirect("/dashboard");
   }
 
-  return <EditForm article={article} session={session} />;
+  return <EditForm article={article} />;
 }
