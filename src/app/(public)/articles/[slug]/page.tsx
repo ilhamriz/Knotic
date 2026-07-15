@@ -35,6 +35,19 @@ const ArticlePage = async ({ params }: Props) => {
       aria-labelledby="article-title"
     >
       <article className="max-w-4xl mx-auto py-12 space-y-12">
+        <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <Link
+            href="/articles"
+            className="hover:text-text-primary transition-colors"
+          >
+            Articles
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-text-primary truncate max-w-xs">
+            {article.title}
+          </span>
+        </div>
+
         {/* Cover Image */}
         <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden rounded-2xl border border-border-default bg-bg-surface">
           <Image
