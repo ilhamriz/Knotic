@@ -69,7 +69,7 @@ export default function EditForm({ article }: EditFormProps) {
 
       <form onSubmit={onSubmit} className="space-y-8">
         {/* Article metadata card */}
-        <div className="rounded-2xl border border-border-default bg-bg-surface p-6 space-y-5">
+        <div className="rounded-2xl border border-border-default bg-bg-surface p-4 sm:p-6 space-y-5">
           <div>
             <label
               className="block text-sm font-medium text-text-primary"
