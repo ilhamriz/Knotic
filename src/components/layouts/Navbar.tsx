@@ -13,6 +13,7 @@ import {
 import Buttons from "../shared/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import ConfirmDialog from "../shared/confirm-dialog";
 
 const menuList = [
   {
@@ -31,6 +32,7 @@ const Navbar = () => {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const [isOpen, setIsOpen] = useState(false);
+  const [confirmSignOutOpen, setConfirmSignOutOpen] = useState(false);
 
   const userImage = session?.user?.image ?? null;
   const userName = session?.user?.name ?? null;
@@ -94,7 +96,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={() => setIsOpen((prev) => !prev)}
-                  aria-label="Sign out"
+                  aria-label="User avatar"
                   className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center cursor-pointer shrink-0"
                 >
                   {userImage ? (
@@ -219,7 +221,7 @@ const Navbar = () => {
               type="button"
               onClick={() => {
                 closeDrawer();
-                signOut();
+                setConfirmSignOutOpen(true);
               }}
               className={cn(
                 drawerItemClass,
@@ -245,6 +247,19 @@ const Navbar = () => {
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmSignOutOpen}
+        title="Sign out of Knotic?"
+        description="You'll need to sign in again to write or manage your articles."
+        confirmLabel="Sign out"
+        variant="danger"
+        onConfirm={() => {
+          setConfirmSignOutOpen(false);
+          signOut();
+        }}
+        onCancel={() => setConfirmSignOutOpen(false)}
+      />
     </>
   );
 };

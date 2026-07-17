@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { ArticlePreview } from "@/lib/articles";
 import Buttons from "@/components/shared/button";
+import ConfirmDialog from "@/components/shared/confirm-dialog";
 
 interface DashboardClientProps {
   articles: ArticlePreview[];
@@ -14,6 +15,9 @@ export default function DashboardClient({
   articles: initialArticles,
 }: DashboardClientProps) {
   const [articles, setArticles] = useState(initialArticles);
+  const [confirmDeleteSlug, setConfirmDeleteSlug] = useState<string | null>(
+    null,
+  );
   const [deleteLoadingSlug, setDeleteLoadingSlug] = useState<string | null>(
     null,
   );
@@ -22,7 +26,6 @@ export default function DashboardClient({
   );
 
   const handleDelete = async (slug: string) => {
-    if (!confirm("Delete this article?")) return;
     setDeleteLoadingSlug(slug);
 
     try {
@@ -125,7 +128,7 @@ export default function DashboardClient({
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-text-secondary mt-1">
+                  <p className="text-sm text-text-secondary mt-1 line-clamp-2">
                     {article.excerpt}
                   </p>
                 </div>
@@ -158,9 +161,9 @@ export default function DashboardClient({
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleDelete(article.slug)}
+                    onClick={() => setConfirmDeleteSlug(article.slug)}
                     disabled={deleteLoadingSlug === article.slug}
-                    className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white hover:bg-danger-hover disabled:opacity-50"
+                    className="rounded-full border border-danger/40 px-4 py-2 text-sm font-semibold text-danger hover:bg-danger/10 hover:border-danger disabled:opacity-50"
                   >
                     {deleteLoadingSlug === article.slug
                       ? "Deleting..."
@@ -172,6 +175,19 @@ export default function DashboardClient({
           ))}
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteSlug !== null}
+        title="Delete this article?"
+        description="This action cannot be undone. The article will be permanently removed."
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={() => {
+          if (confirmDeleteSlug) handleDelete(confirmDeleteSlug);
+          setConfirmDeleteSlug(null);
+        }}
+        onCancel={() => setConfirmDeleteSlug(null)}
+      />
     </main>
   );
 }

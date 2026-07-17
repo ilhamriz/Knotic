@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;
-  intent?: "primary" | "secondary" | "outline" | "tertiary" | "disabled";
+  intent?: "primary" | "secondary" | "outline" | "danger" | "disabled";
   size?: "medium";
   type?: "button" | "submit" | "reset";
   className?: string;
@@ -24,13 +24,13 @@ export const buttonTemplate = cva("button", {
         "bg-primary-muted hover:bg-primary border border-primary text-text-primary",
       secondary:
         "bg-bg-elevated border border-border-default text-text-primary hover:bg-border-default hover:border-border-strong",
-      outline: "border border-border-default",
-      tertiary: "",
+      outline: "",
+      danger: "bg-danger hover:bg-danger-hover",
       disabled: "text-text-muted",
     },
     size: {
       medium:
-        "min-w-25 w-full h-10 md:h-9 text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-300 cursor-pointer flex justify-center items-center gap-2",
+        "min-w-25 w-full h-10 md:h-9 text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 cursor-pointer flex justify-center items-center gap-2",
     },
   },
   defaultVariants: {
