@@ -109,6 +109,41 @@ export async function getUserArticles(
   }));
 }
 
+function stripDuplicateTitleHeading(content: string, title: string): string {
+  const lines = content.trimStart().split("\n");
+  const normalizedTitle = title.trim().toLowerCase();
+
+  // Scan the first 3 non-empty lines for a leading H1 heading
+  let headingLineIndex = -1;
+  let nonEmptyCount = 0;
+  for (let i = 0; i < lines.length && nonEmptyCount < 3; i++) {
+    const trimmed = lines[i].trim();
+    if (trimmed === "") continue;
+    nonEmptyCount++;
+    if (trimmed.startsWith("# ")) {
+      const headingText = trimmed.slice(2).trim().toLowerCase();
+      const isDuplicate =
+        headingText === normalizedTitle ||
+        normalizedTitle.includes(headingText) ||
+        headingText.includes(normalizedTitle);
+      if (isDuplicate) {
+        headingLineIndex = i;
+      }
+    }
+    // Stop scanning once we hit the first non-empty, non-heading line —
+    // a heading only counts as "leading" if nothing but blank lines precede it
+    break;
+  }
+
+  if (headingLineIndex === -1) return content;
+
+  const remaining = [
+    ...lines.slice(0, headingLineIndex),
+    ...lines.slice(headingLineIndex + 1),
+  ].join("\n");
+  return remaining.trimStart();
+}
+
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const article = await prisma.article.findUnique({
     where: { slug },
@@ -121,11 +156,15 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     return null;
   }
 
+  const cleanedContent = stripDuplicateTitleHeading(
+    article.content,
+    article.title,
+  );
   const processed = await remark()
     .use(remarkRehype)
     .use(rehypeHighlight)
     .use(rehypeStringify)
-    .process(article.content);
+    .process(cleanedContent);
   const contentHtml = processed.toString();
 
   return {
