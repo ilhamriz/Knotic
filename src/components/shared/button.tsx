@@ -26,11 +26,11 @@ export const buttonTemplate = cva("button", {
         "bg-bg-elevated border border-border-default text-text-primary hover:bg-border-default hover:border-border-strong",
       outline: "",
       danger: "bg-danger hover:bg-danger-hover",
-      disabled: "text-text-muted",
+      disabled: "text-text-muted border border-border-default",
     },
     size: {
       medium:
-        "min-w-25 w-full h-10 md:h-9 text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 cursor-pointer flex justify-center items-center gap-2",
+        "relative min-w-25 w-full h-10 md:h-9 text-sm font-medium px-4 py-2 rounded-full transition-all duration-300 cursor-pointer flex justify-center items-center gap-2",
     },
   },
   defaultVariants: {
@@ -38,20 +38,6 @@ export const buttonTemplate = cva("button", {
     size: "medium",
   },
 });
-
-// Internal button content component to avoid duplication
-const ButtonContent = ({
-  children,
-  disabled,
-}: {
-  children: ReactNode;
-  disabled: boolean;
-}) => (
-  <>
-    {disabled && <div className="absolute inset-0 bg-black/40" />}
-    {children}
-  </>
-);
 
 const Buttons = ({
   intent = "primary",
@@ -68,7 +54,7 @@ const Buttons = ({
 }: ButtonProps) => {
   const buttonClassName = cn(
     buttonTemplate({
-      intent,
+      intent: disabled ? "disabled" : intent,
       size,
     }),
     className,
@@ -94,7 +80,7 @@ const Buttons = ({
         target={isExternalLink ? "_blank" : undefined}
         rel={isExternalLink ? "noopener noreferrer" : undefined}
       >
-        <ButtonContent disabled={disabled}>{children}</ButtonContent>
+        {children}
       </Link>
     );
   }
@@ -102,7 +88,7 @@ const Buttons = ({
   // Render as button otherwise
   return (
     <button {...commonProps} disabled={disabled} type={type}>
-      <ButtonContent disabled={disabled}>{children}</ButtonContent>
+      {children}
     </button>
   );
 };

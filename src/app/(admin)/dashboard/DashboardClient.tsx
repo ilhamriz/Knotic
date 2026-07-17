@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import type { ArticlePreview } from "@/lib/articles";
 import Buttons from "@/components/shared/button";
 import ConfirmDialog from "@/components/shared/confirm-dialog";
+import { cn } from "@/lib/utils";
+import { EyeOpenIcon, PencilIcon, TrashIcon } from "@/components/shared/icons";
 
 interface DashboardClientProps {
   articles: ArticlePreview[];
@@ -95,6 +97,30 @@ export default function DashboardClient({
         </p>
       </header>
 
+      {/* STATS SUMMARY */}
+      {articles.length > 0 &&
+        (() => {
+          const publishedCount = articles.filter(
+            (a) => a.status !== "draft",
+          ).length;
+          const draftCount = articles.filter(
+            (a) => a.status === "draft",
+          ).length;
+
+          return (
+            <div className="mb-8 flex flex-wrap gap-4">
+              <StatSummary label="Total articles" value={articles.length} />
+              <StatSummary
+                label="Published"
+                value={publishedCount}
+                variant="published"
+              />
+              <StatSummary label="Drafts" value={draftCount} variant="draft" />
+            </div>
+          );
+        })()}
+
+      {/* ARTICLE LIST */}
       {articles.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-default bg-bg-surface p-10 text-center">
           <h2 className="text-xl font-semibold text-text-primary">
@@ -112,62 +138,73 @@ export default function DashboardClient({
               key={article.slug}
               className="rounded-2xl border border-border-default bg-bg-surface p-5"
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-x-10 gap-y-6 md:flex-row md:items-center md:justify-between">
+                {/* CONTENT */}
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-semibold text-text-primary">
-                      {article.title}
-                    </h2>
-                    {article.status === "draft" ? (
-                      <span className="rounded-full bg-bg-elevated border border-accent/30 px-2.5 py-0.5 text-xs font-medium text-accent">
-                        Draft
-                      </span>
-                    ) : (
-                      <span className="rounded-full bg-bg-elevated border border-primary/30 px-2.5 py-0.5 text-xs font-medium text-primary">
-                        Published
-                      </span>
+                  <span
+                    className={cn(
+                      "w-fit rounded-full bg-bg-elevated border px-2.5 py-0.5 text-xs font-medium",
+                      article.status === "draft"
+                        ? "text-accent border-accent/30"
+                        : "text-primary border-primary/30",
                     )}
-                  </div>
+                  >
+                    {article.status === "draft" ? "Draft" : "Published"}
+                  </span>
+                  <h2 className="pt-2 text-xl font-semibold text-text-primary">
+                    {article.title}
+                  </h2>
                   <p className="text-sm text-text-secondary mt-1 line-clamp-2">
                     {article.excerpt}
                   </p>
                 </div>
+
+                {/* BUTTONS */}
                 <div className="flex items-center gap-2 shrink-0">
-                  <Buttons
-                    intent="secondary"
+                  <a
                     href={`/articles/${article.slug}`}
-                    className="min-w-auto"
+                    title="View article"
+                    aria-label="View article"
+                    className="flex items-center justify-center w-10 h-10 rounded-full border border-border-default text-text-primary hover:border-border-strong transition-colors"
                   >
-                    View
-                  </Buttons>
+                    <EyeOpenIcon size="16" />
+                  </a>
+                  <a
+                    href={`/edit/${article.slug}`}
+                    title="Edit article"
+                    aria-label="Edit article"
+                    className="flex items-center justify-center w-10 h-10 rounded-full border border-border-default text-text-primary hover:border-border-strong transition-colors"
+                  >
+                    <PencilIcon size="16" />
+                  </a>
+
+                  {/* DIVIDER */}
+                  <span
+                    className="h-6 w-px bg-border-default mx-1"
+                    aria-hidden="true"
+                  />
+
                   <Buttons
                     intent="secondary"
-                    href={`/edit/${article.slug}`}
-                    className="min-w-auto"
-                  >
-                    Edit
-                  </Buttons>
-                  <button
-                    type="button"
                     onClick={() => handleToggleStatus(article)}
                     disabled={statusLoadingSlug === article.slug}
-                    className="rounded-full border border-border-strong bg-bg-elevated px-4 py-2 text-sm font-semibold text-text-primary hover:bg-bg-surface hover:border-border-strong disabled:opacity-50"
+                    className="min-w-auto w-[110px] md:h-10"
                   >
                     {statusLoadingSlug === article.slug
                       ? "Saving..."
                       : article.status === "draft"
                         ? "Publish"
                         : "Unpublish"}
-                  </button>
+                  </Buttons>
                   <button
                     type="button"
                     onClick={() => setConfirmDeleteSlug(article.slug)}
                     disabled={deleteLoadingSlug === article.slug}
-                    className="rounded-full border border-danger/40 px-4 py-2 text-sm font-semibold text-danger hover:bg-danger/10 hover:border-danger disabled:opacity-50"
+                    aria-label="Delete article"
+                    title="Delete article"
+                    className="flex items-center justify-center w-10 h-10 rounded-full border border-danger/40 text-danger hover:bg-danger/10 hover:border-danger disabled:opacity-50 transition-colors cursor-pointer"
                   >
-                    {deleteLoadingSlug === article.slug
-                      ? "Deleting..."
-                      : "Delete"}
+                    <TrashIcon size="16" />
                   </button>
                 </div>
               </div>
@@ -191,3 +228,35 @@ export default function DashboardClient({
     </main>
   );
 }
+
+const StatSummary = ({
+  label,
+  value,
+  variant = "default",
+}: {
+  label: string;
+  value: string | number;
+  variant?: "default" | "published" | "draft";
+}) => {
+  const border = {
+    published: "border-primary/30",
+    draft: "border-accent/30",
+    default: "border-border-default",
+  };
+  const text = {
+    published: "text-primary",
+    draft: "text-accent",
+    default: "text-text-primary",
+  };
+  return (
+    <div
+      className={cn(
+        "basis-[120px] rounded-xl border bg-bg-surface px-5 py-3",
+        border[variant],
+      )}
+    >
+      <p className={cn("text-2xl font-semibold", text[variant])}>{value}</p>
+      <p className="text-xs text-text-secondary mt-0.5">{label}</p>
+    </div>
+  );
+};
