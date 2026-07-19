@@ -77,7 +77,7 @@ const Navbar = () => {
             href="/search"
             aria-label="Search"
             onClick={closeDrawer}
-            className="group flex items-center justify-center gap-2 rounded-md text-text-secondary hover:text-text-primary transition-colors"
+            className="group flex items-center justify-center gap-2 rounded-md text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
             <SearchIcon
               size="16"
