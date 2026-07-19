@@ -3,6 +3,7 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 function makeSlug(title: string) {
@@ -111,6 +112,10 @@ export async function POST(request: Request) {
         author: true,
       },
     });
+
+    revalidatePath("/");
+    revalidatePath("/articles");
+    revalidatePath("/tags", "layout");
 
     return NextResponse.json({ article: newArticle }, { status: 201 });
   } catch (error) {

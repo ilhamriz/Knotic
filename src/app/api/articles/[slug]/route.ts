@@ -2,6 +2,7 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
+import { revalidatePath } from "next/cache";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function PUT(
@@ -71,6 +72,11 @@ export async function PUT(
       },
     });
 
+    revalidatePath("/");
+    revalidatePath("/articles");
+    revalidatePath(`/articles/${slug}`);
+    revalidatePath("/tags", "layout");
+
     return NextResponse.json({ article: updated }, { status: 200 });
   } catch (error) {
     console.error("Failed to update article", error);
@@ -111,6 +117,11 @@ export async function DELETE(
     await prisma.article.delete({
       where: { slug },
     });
+
+    revalidatePath("/");
+    revalidatePath("/articles");
+    revalidatePath(`/articles/${slug}`);
+    revalidatePath("/tags", "layout");
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {

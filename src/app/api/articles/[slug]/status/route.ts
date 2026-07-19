@@ -3,6 +3,7 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
+import { revalidatePath } from "next/cache";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function PATCH(
@@ -42,6 +43,11 @@ export async function PATCH(
       where: { slug },
       data: { status },
     });
+
+    revalidatePath("/");
+    revalidatePath("/articles");
+    revalidatePath(`/articles/${slug}`);
+    revalidatePath("/tags", "layout");
 
     return NextResponse.json({ article: updated }, { status: 200 });
   } catch (error) {
