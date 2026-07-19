@@ -103,3 +103,33 @@ textarea:-webkit-autofill:focus {
   box-shadow: 0 0 0px 1000px var(--color-bg-surface) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Style GFM task list checkboxes for visibility on dark background */
+.prose input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 0.25rem;
+  background-color: var(--color-bg-elevated);
+  cursor: default;
+  position: relative;
+  top: 0.15rem;
+}
+
+.prose input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.prose input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translateX(-50%);
+}

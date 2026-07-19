@@ -2,6 +2,7 @@
 
 import { prisma } from "./prisma";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
@@ -161,6 +162,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     article.title,
   );
   const processed = await remark()
+    .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeHighlight)
     .use(rehypeStringify)

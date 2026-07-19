@@ -35,6 +35,7 @@ const ArticlePage = async ({ params }: Props) => {
       aria-labelledby="article-title"
     >
       <article className="max-w-4xl mx-auto py-12 space-y-12">
+        {/* BREADCRUMBS */}
         <div className="flex items-center gap-2 text-sm text-text-secondary">
           <Link
             href="/articles"
@@ -62,7 +63,10 @@ const ArticlePage = async ({ params }: Props) => {
         {/* Article Header */}
         <header className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-4 text-sm text-text-secondary">
+            <div className="flex flex-wrap items-center gap-3 text-sm text-text-secondary">
+              <span className="w-8 h-8 rounded-full bg-primary-muted border border-primary flex items-center justify-center text-xs font-semibold text-primary shrink-0">
+                {article.author?.[0]?.toUpperCase() ?? "?"}
+              </span>
               <span className="font-medium text-text-primary">
                 {article.author}
               </span>
@@ -111,21 +115,23 @@ const ArticlePage = async ({ params }: Props) => {
           )}
         </header>
 
-        {/* AI Summarizer — only for authenticated users */}
-        {session && (
-          <ArticleSummarizer
-            articleTitle={article.title}
-            articleContent={article.content}
-          />
-        )}
+        <div className="border-t border-border-default pt-8 space-y-8">
+          {/* AI Summarizer — only for authenticated users */}
+          {session && (
+            <ArticleSummarizer
+              articleTitle={article.title}
+              articleContent={article.content}
+            />
+          )}
 
-        {/* Article Content */}
-        <section
-          aria-label="Article content"
-          className="prose prose-invert prose-lg max-w-none prose-pre:bg-bg-surface prose-pre:border prose-pre:border-border-default"
-        >
-          <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
-        </section>
+          {/* Article Content */}
+          <section
+            aria-label="Article content"
+            className="prose prose-invert prose-lg max-w-none prose-pre:bg-bg-surface prose-pre:border prose-pre:border-border-default prose-img:w-full prose-img:rounded-xl prose-img:border prose-img:border-border-default"
+          >
+            <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
+          </section>
+        </div>
       </article>
     </main>
   );

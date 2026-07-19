@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
@@ -13,6 +14,7 @@ export default function MarkdownPreview({ content }: { content: string }) {
     let cancelled = false;
 
     remark()
+      .use(remarkGfm)
       .use(remarkRehype)
       .use(rehypeHighlight)
       .use(rehypeStringify)
