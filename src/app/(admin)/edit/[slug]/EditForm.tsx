@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import type { Article } from "@/lib/articles";
 import AiAssistant from "@/components/ai/AiAssistant";
 import MarkdownPreview from "@/components/editor/MarkdownPreview";
+import Buttons from "@/components/shared/button";
 
 interface EditFormProps {
   article: Article;
@@ -165,19 +166,16 @@ export default function EditForm({ article }: EditFormProps) {
 
         {/* Submit footer */}
         <div className="border-t border-border-subtle pt-5 mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
-          <button
-            type="submit"
-            className="rounded-lg bg-primary px-5 py-2.5 text-white font-semibold hover:bg-primary-hover"
-          >
+          <Buttons type="submit" className="sm:w-fit">
             Save changes
-          </button>
-          <button
-            type="button"
+          </Buttons>
+          <Buttons
+            intent="secondary"
             onClick={() => router.push("/dashboard")}
-            className="rounded-lg border border-border-default px-5 py-2.5 text-text-secondary font-semibold hover:border-border-strong hover:text-text-primary"
+            className="sm:w-fit"
           >
             Cancel
-          </button>
+          </Buttons>
         </div>
       </form>
 

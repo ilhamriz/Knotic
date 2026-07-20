@@ -1,14 +1,14 @@
 // app/(public)/about/page.tsx
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
-import Link from "next/link";
+import Buttons from "@/components/shared/button";
 
 export default function AboutPage() {
   return (
     <main className="page-container py-12 space-y-12 editorial">
       {/* Header */}
       <section aria-labelledby="about-heading">
-        <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+        <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary-hover">
           Knowledge, structured for thinking
         </p>
         <h1
@@ -79,12 +79,9 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section>
-        <Link
-          href="/articles"
-          className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-        >
+        <Buttons href="/articles" className="sm:w-fit">
           Read the articles
-        </Link>
+        </Buttons>
       </section>
     </main>
   );

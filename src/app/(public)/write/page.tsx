@@ -11,7 +11,6 @@ export const metadata = buildMetadata(
 
 export default async function WritePage() {
   const session = await getServerSession(authOptions);
-  console.log("session", session);
 
   if (!session) {
     redirect("/login");

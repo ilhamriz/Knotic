@@ -1,6 +1,7 @@
 import type { ArticlePreview } from "@/lib/articles";
 import { formatArticlePublishedDate } from "@/lib/utils";
 import Link from "next/link";
+import Buttons from "../shared/button";
 
 type ArticleCardProps = {
   article: ArticlePreview;
@@ -51,16 +52,20 @@ export function ArticleCard({ article }: ArticleCardProps) {
       </header>
 
       <footer className="mt-4">
-        <Link
+        <Buttons
+          intent="textLink"
           href={`/articles/${article.slug}`}
-          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-surface rounded-md"
           aria-label={`Read full article: ${article.title}`}
+          className="p-0 min-w-auto w-fit h-fit!"
         >
           Read article
-          <span aria-hidden="true" className="ml-1">
+          <span
+            aria-hidden="true"
+            className="group-hover:translate-x-1 transition-all duration-300"
+          >
             →
           </span>
-        </Link>
+        </Buttons>
       </footer>
     </article>
   );

@@ -1,5 +1,6 @@
 // app/(public)/page.tsx
 import { ArticleCard } from "@/components/article/ArticleCard";
+import Buttons from "@/components/shared/button";
 import { getAllArticles, type ArticlePreview } from "@/lib/articles";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default async function Home() {
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 h-[600px] w-[600px] rounded-full bg-primary/15 blur-[120px] opacity-60" />
         </div>
 
-        <p className="text-sm md:text-base font-medium uppercase tracking-[0.25em] text-primary">
+        <p className="text-sm md:text-base font-medium uppercase tracking-[0.25em] text-primary-hover">
           Knowledge, structured for thinking
         </p>
         <h1
@@ -47,18 +48,12 @@ export default async function Home() {
           what they store.
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
-          <Link
-            href="/articles"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-          >
+          <Buttons href="/articles" className="sm:w-fit">
             Explore the articles
-          </Link>
-          <Link
-            href="/search"
-            className="inline-flex items-center justify-center rounded-full border border-border-default px-6 py-2.5 text-sm font-semibold text-text-primary hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-          >
+          </Buttons>
+          <Buttons intent="secondary" href="/search" className="sm:w-fit">
             Search articles
-          </Link>
+          </Buttons>
         </div>
       </section>
 
@@ -152,7 +147,7 @@ export default async function Home() {
           </div>
           <Link
             href="/articles"
-            className="text-sm font-medium text-primary hover:text-primary-hover"
+            className="text-sm font-medium text-primary-hover hover:text-primary transition-all duration-300"
           >
             View all articles
           </Link>
@@ -193,13 +188,14 @@ export default async function Home() {
             high-quality writing, clear structure, and a modern content
             architecture. Follow the articles to see how it evolves.
           </p>
-          <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
-            <Link
+          <div className="mt-6">
+            <Buttons
+              intent="secondary"
               href="/about"
-              className="inline-flex items-center justify-center rounded-full bg-bg-surface px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+              className="sm:w-fit bg-bg-surface hover:bg-bg-elevated"
             >
               Learn more about Knotic
-            </Link>
+            </Buttons>
           </div>
         </div>
       </section>

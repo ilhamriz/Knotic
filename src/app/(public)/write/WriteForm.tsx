@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AiAssistant from "@/components/ai/AiAssistant";
 import MarkdownPreview from "@/components/editor/MarkdownPreview";
+import Buttons from "@/components/shared/button";
 
 export default function WriteForm() {
   const [title, setTitle] = useState("");
@@ -156,12 +157,9 @@ export default function WriteForm() {
 
         {/* Submit footer */}
         <div className="border-t border-border-subtle pt-5 mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
-          <button
-            type="submit"
-            className="rounded-lg bg-primary px-5 py-2.5 text-white font-semibold hover:bg-primary-hover"
-          >
-            Submit article
-          </button>
+          <div className="sm:w-fit">
+            <Buttons type="submit">Submit article</Buttons>
+          </div>
         </div>
       </form>
 

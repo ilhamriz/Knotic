@@ -67,6 +67,10 @@ body {
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
 .editorial h1,
 .editorial h2 {
   font-family: var(--font-playfair), serif;

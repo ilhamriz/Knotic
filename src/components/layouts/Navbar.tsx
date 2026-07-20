@@ -89,7 +89,7 @@ const Navbar = () => {
           {status !== "loading" &&
             (isAuthenticated ? (
               <>
-                <Buttons href="/write" onClick={closeDrawer}>
+                <Buttons href="/write" onClick={closeDrawer} className="md:h-9">
                   <PencilIcon size="16" className="shrink-0" />
                   Write
                 </Buttons>
